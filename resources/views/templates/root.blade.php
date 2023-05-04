@@ -106,7 +106,7 @@
     </div>
 
 
-    {{-- OR LOADING CHARTJS --}}
+    {{-- FOR LOADING CHARTJS --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.3.0/chart.min.js"></script>
     @isset($labels && $data)
         <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -137,6 +137,8 @@
             });
         </script>
     @endisset
+
+
 
     <!-- General JS Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
