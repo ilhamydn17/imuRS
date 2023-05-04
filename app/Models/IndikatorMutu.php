@@ -1,0 +1,26 @@
+<?php
+
+namespace App\Models;
+
+use App\Models\Unit;
+use App\Models\PengukuranMutu;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+
+class IndikatorMutu extends Model
+{
+    use HasFactory;
+
+    protected $guarded = ['id'];
+
+    protected $table = "indikator_mutu";
+
+    public function unit()
+    {
+        return $this->belongsTo(Unit::class);
+    }
+
+    public function pengukuran_mutu(){
+        return $this->hasMany(PengukuranMutu::class);
+    }
+}
