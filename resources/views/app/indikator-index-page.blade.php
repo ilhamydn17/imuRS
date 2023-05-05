@@ -31,7 +31,7 @@
                                     <td class="font-weight-bold">{{ $indikator_mutu->firstItem() + $loop->index }}</td>
                                     <td>
                                         <a class="text-primary text-decoration-none hover font-weight-bolder text-uppercase"
-                                            id="list-profile-list" href="{{ route('input-harian.show', $item->id) }}"
+                                            id="list-profile-list" href="{{ route('pengukuran-mutu.inputHarian', $item->id) }}"
                                             data-bs-toggle="list" role="tab" aria-controls="list-profile-list">
                                             {{ $item->nama_indikator }}
                                         </a>

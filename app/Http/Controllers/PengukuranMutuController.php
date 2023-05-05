@@ -6,16 +6,14 @@ use App\Models\IndikatorMutu;
 use App\Models\PengukuranMutu;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StorePengukuranMutuRequest;
-use App\Http\Requests\UpdatePengukuranMutuRequest;
 
 class PengukuranMutuController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Menampilkan chart dari indikator mutu
      */
-    public function index()
+    public function showChart()
     {
-        //
        // get data from PengukuranMutu model
        $datas = DB::table('pengukuran_mutu')->where('indikator_mutu_id', 1)->whereMonth('tanggal_input', 5)->get();
        $labels = [];
@@ -24,16 +22,18 @@ class PengukuranMutuController extends Controller
            $labels[] = $item->tanggal_input;
            $data[] = $item->prosentase;
        }
-       return view('app.monitoring-page',compact('labels','data'));
+       return view('app.pengukuranMutu-chart-page',compact('labels','data'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Input Harian Indikator Mutu
      */
-    public function create($id)
+    public function inputHarian($id)
     {
-        $cur_indikator = IndikatorMutu::find($id);
-        return view('app.input-page');
+        $cur_indikator = auth()->user()->unit->indikator_mutu->find($id);
+        // check if data already inputted and date is today
+        if( $cur_indikator->pengukuran_mutu->count() > 0 && $cur_indikator->pengukuran_mutu->last()->tanggal_input == now()->format('Y-m-d')) return back()->with('error', 'Data telah diinput');
+        return view('app.pengukuranMutu-input-page', compact('cur_indikator'));
     }
 
     /**
@@ -47,9 +47,7 @@ class PengukuranMutuController extends Controller
         $denumerator = $request->input('denumerator');
 
         // return error if denumerator smaller than numerator
-        if ($denumerator < $numerator) {
-            return redirect()->route('indikator-menu.index')->with('error', 'Data Gagal Diinput! periksa kembali inputan');
-        }
+        if ($denumerator < $numerator) return redirect()->route('indikator-mutu.index')->with('error', 'Data Gagal Diinput! periksa kembali inputan');
 
         // count the percentage from numerator and denumerator
         $percentage = $numerator / $denumerator * 100;
@@ -58,41 +56,7 @@ class PengukuranMutuController extends Controller
         // store all data to database in tabel PengukuranMutu
         PengukuranMutu::create($request->all());
 
-        return redirect()->route('indikator-menu.index')->with('success', 'Data Berhasil Diinput!');;
+        return redirect()->route('indikator-mutu.index')->with('success', 'Data Berhasil Diinput!');;
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show($id)
-    {
-        $cur_indikator = IndikatorMutu::find($id);
-        // check if data already inputted and date is today
-        if( $cur_indikator->pengukuran_mutu->count() > 0 && $cur_indikator->pengukuran_mutu->last()->tanggal_input == now()->format('Y-m-d')) return back()->with('error', 'Data telah diinput');
-        return view('app.input-page', compact('cur_indikator'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(PengukuranMutu $pengukuranMutu)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdatePengukuranMutuRequest $request, PengukuranMutu $pengukuranMutu)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(PengukuranMutu $pengukuranMutu)
-    {
-        //
-    }
 }

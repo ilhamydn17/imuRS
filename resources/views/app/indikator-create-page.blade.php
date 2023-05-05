@@ -15,7 +15,7 @@
                         </div>
 
                         <div class="card-body">
-                            <form action="{{ route('indikator-menu.store') }}" method="POST">
+                            <form action="{{ route('indikator-mutu.store') }}" method="POST">
                                 @csrf
                                 <div class="form-group">
                                     <label>Nama Unit</label>

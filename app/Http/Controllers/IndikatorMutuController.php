@@ -15,11 +15,11 @@ class IndikatorMutuController extends Controller
     public function index()
     {
         // mendapatkan data user yang telah berhasil login
-        if(auth()->check()) $user_data = auth()->user();
+         $user_data = auth()->user();
         // mengambil data indikator_mutu(bersifat many) dari unit(relasi dengan user) yang telah login
         $indikator_mutu = $user_data->unit->indikator_mutu()->paginate(5);
         // get units data after login and pass to vieww
-        return view('app.indikator-page', compact(['indikator_mutu', 'user_data']));
+        return view('app.indikator-index-page', compact(['indikator_mutu', 'user_data']));
     }
 
     /**
@@ -28,7 +28,7 @@ class IndikatorMutuController extends Controller
     public function create()
     {
         $data_unit = Unit::all();
-        return view('app.create-indikator', compact('data_unit'));
+        return view('app.indikator-create-page', compact('data_unit'));
     }
 
     /**
@@ -37,38 +37,14 @@ class IndikatorMutuController extends Controller
     public function store(StoreIndikatorMutuRequest $request)
     {
         IndikatorMutu::create($request->validated());
-        return redirect()->route('indikator-menu.index')->with('success', 'Indikator Mutu berhasil ditambahkan');
+        return redirect()->route('indikator-mutu.index')->with('success', 'Indikator Mutu berhasil ditambahkan');
     }
 
     /**
-     * Display the specified resource.
+     * Rekapitulasi indikator mutu
      */
-    public function show(IndikatorMutu $indikatorMutu)
-    {
-
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(IndikatorMutu $indikatorMutu)
-    {
-
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateIndikatorMutuRequest $request, IndikatorMutu $indikatorMutu)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(IndikatorMutu $indikatorMutu)
-    {
-        //
+    public function showRekap(){
+        $data_indikator = auth()->user()->unit->indikator_mutu;
+        return view('app.indikator-rekap-page', compact('data_indikator'));
     }
 }

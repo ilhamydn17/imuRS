@@ -16,17 +16,17 @@
                 </div>
             </div>
             {{-- {{-- @if (1 < 0) --}}
-                <div class="row d-flex justify-content-center">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="chart-container">
-                                    <canvas id="myChart" height="100px"></canvas>
-                                </div>
+            <div class="row d-flex justify-content-center">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="chart-container">
+                                <canvas id="myChart" height="300px"></canvas>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
             {{-- @else
                 <div class="alert text-center" style="background-color: #f4c631" role="alert">
                     Data tidak ditemukan!
