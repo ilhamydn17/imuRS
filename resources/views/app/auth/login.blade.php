@@ -33,7 +33,9 @@
                         is-invalid
                       @enderror">Password</label>
                   </div>
-                  <input id="password" type="password" class="form-control" name="password" tabindex="2">
+                  <input id="password" type="password" class="form-control @error('password')
+                    is-invalid
+                  @enderror" name="password" tabindex="2">
                   @error('password')
                   <div class="invalid-feedback">
                       {{ $message }}

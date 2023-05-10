@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Root Page &mdash; Stisla</title>
 
     {{-- FOR CHART --}}
@@ -24,6 +25,9 @@
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/components.css') }}">
+
+    {{-- jquery --}}
+
 </head>
 
 <body>
@@ -41,7 +45,8 @@
                 <ul class="navbar-nav navbar-right">
                     <li class="dropdown"><a href="#" data-toggle="dropdown"
                             class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-                            <img alt="image" src="{{ asset('assets/img/avatar/avatar-1.png') }}" class="rounded-circle mr-1">
+                            <img alt="image" src="{{ asset('assets/img/avatar/avatar-1.png') }}"
+                                class="rounded-circle mr-1">
                             <div class="d-sm-none d-lg-inline-block">{{ auth()->user()->unit->nama_unit }}</div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
@@ -108,6 +113,33 @@
             </footer>
         </div>
     </div>
+
+    {{-- For Load Rekap Data with AJAX--}}
+    {{-- <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script> --}}
+    {{-- GLOBAL SETUP --}}
+    {{-- <script>
+        // global setup
+        $.ajaxSetup({
+            headers:{
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        })
+        $(document).ready(function() {
+            $('#showRekap').click(function() {
+                $.ajax({
+                    url: 'indikator-mutu/getRekap',
+                    type: 'POST',
+                    data: {
+                        bulan: $('#bulan').val(),
+                        indikator_mutu: $('#indikator_mutu_id').val()
+                    },
+                    success: function(response) {
+                        console.log(response);
+                    },
+                });
+            });
+        });
+    </script> --}}
 
 
     {{-- For ChartJS --}}

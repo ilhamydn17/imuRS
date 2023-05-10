@@ -1,6 +1,7 @@
 @extends('templates.root')
 
 @section('content')
+    @dd($bulanIni)
     <section class="section">
         <div class="section-header">
             <h1>Input Harian - {{ $user_data->unit->nama_unit }}</h1>

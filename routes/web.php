@@ -28,6 +28,7 @@ Route::middleware(['auth'])->group(function () {
     // for indikator-mutu
     Route::resource('indikator-mutu', IndikatorMutuController::class)->except('show');
     Route::name('indikator-mutu.showRekap')->get('indikator-mutu/rekap', [IndikatorMutuController::class, 'showRekap']);
+    Route::name('indikator-mutu.getRekap')->post('indikator-mutu/getRekap', [IndikatorMutuController::class, 'getRekap']);
     // for pengukuran-mutu
     Route::resource('pengukuran-mutu', PengukuranMutuController::class)->except('show');
     Route::name('pengukuran-mutu.showChart')->get('pengukuran-mutu/chart', [PengukuranMutuController::class, 'showChart']);

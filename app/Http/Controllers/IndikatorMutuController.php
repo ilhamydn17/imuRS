@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Unit;
+use Illuminate\Http\Request;
 use App\Models\IndikatorMutu;
+use App\Models\PengukuranMutu;
 use App\Http\Requests\StoreIndikatorMutuRequest;
 use App\Http\Requests\UpdateIndikatorMutuRequest;
+use Carbon\Carbon;
 
 class IndikatorMutuController extends Controller
 {
@@ -18,8 +21,12 @@ class IndikatorMutuController extends Controller
          $user_data = auth()->user();
         // mengambil data indikator_mutu(bersifat many) dari unit(relasi dengan user) yang telah login
         $indikator_mutu = $user_data->unit->indikator_mutu()->paginate(5);
-        // get units data after login and pass to vieww
-        return view('app.indikator-index-page', compact(['indikator_mutu', 'user_data']));
+        // get units data after login and pass to view
+        // just for testing
+        $jumlahHari = Carbon::now()->daysInMonth;
+        $bulanIni = Carbon::now()->month;
+        // end for testing
+        return view('app.indikator-index-page', compact(['indikator_mutu', 'user_data','jumlahHari','bulanIni']));
     }
 
     /**
@@ -46,5 +53,15 @@ class IndikatorMutuController extends Controller
     public function showRekap(){
         $data_indikator = auth()->user()->unit->indikator_mutu;
         return view('app.indikator-rekap-page', compact('data_indikator'));
+    }
+
+    public function getRekap(Request $request){
+        $tanggal = $request->input('tanggal');
+        $bulan = $request->input('bulan');
+        $indikatorMutu = $request->input('indikator_mutu_id');
+        $rekap = PengukuranMutu::where('tanggal_input', 'like', "%{$bulan}%")->where('indikator_mutu_id','=',$indikatorMutu)->get();
+        $indikator_mutu = IndikatorMutu::find($indikatorMutu);
+        return view('app.indikator-rekap-page', compact(['rekap', 'indikator_mutu']));
+
     }
 }

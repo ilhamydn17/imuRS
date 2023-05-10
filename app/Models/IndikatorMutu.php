@@ -6,9 +6,11 @@ use App\Models\Unit;
 use App\Models\PengukuranMutu;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+// use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 class IndikatorMutu extends Model
 {
+    // use HasUuids
     use HasFactory;
 
     protected $guarded = ['id'];
