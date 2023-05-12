@@ -15,7 +15,7 @@ class PengukuranMutuController extends Controller
     public function showChart()
     {
        // get data from PengukuranMutu model
-       $datas = DB::table('pengukuran_mutu')->where('indikator_mutu_id', 1)->whereMonth('tanggal_input', 5)->get();
+       $datas = DB::table('pengukuran_mutu')->where('indikator_mutu_id', 1)->whereMonth('tanggal_input', 4)->get();
        $labels = [];
        $data = [];
        foreach ($datas as $item) {

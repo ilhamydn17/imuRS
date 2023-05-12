@@ -31,7 +31,7 @@ class HitungProsentaseBulanan implements ShouldQueue
         $jumlahHari = Carbon::now()->daysInMonth;
         $bulanIni = Carbon::now()->month;
         if(PengukuranMutu::whereMonth('tanggal_input', $bulanIni)->count() !== $jumlahHari) return;
-
+        // jika memenuhi akan menghitung rata2 perbulan dan memasukkan ke dalam tabel rata2 perbulan
         $prosentaseHarian = PengukuranMutu::whereMonth('tanggal_input', $bulanIni)->get(['prosentase']);
         $avgBulan = $prosentaseHarian->avg('prosentase');
 

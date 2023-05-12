@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\IndikatorMutu;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class AverageBulan extends Model
 {
@@ -13,9 +14,12 @@ class AverageBulan extends Model
 
     protected $dates = ['tanggal'];
 
-    protected $fillable = ['tanggal', 'avg_perbulan'];
-    public function getTanggalAtrribute($value)
-    {
-       return $this->attributes['tanggal']->format('Y-m');
+    protected $fillable = ['tanggal', 'avgBulan'];
+
+    public $timestamps = false;
+
+    public function indikator_mutu(){
+        return $this->belongsTo(IndikatorMutu::class);
     }
+
 }

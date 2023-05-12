@@ -114,53 +114,26 @@
         </div>
     </div>
 
-    {{-- For Load Rekap Data with AJAX--}}
-    {{-- <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script> --}}
-    {{-- GLOBAL SETUP --}}
-    {{-- <script>
-        // global setup
-        $.ajaxSetup({
-            headers:{
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        })
-        $(document).ready(function() {
-            $('#showRekap').click(function() {
-                $.ajax({
-                    url: 'indikator-mutu/getRekap',
-                    type: 'POST',
-                    data: {
-                        bulan: $('#bulan').val(),
-                        indikator_mutu: $('#indikator_mutu_id').val()
-                    },
-                    success: function(response) {
-                        console.log(response);
-                    },
-                });
-            });
-        });
-    </script> --}}
-
 
     {{-- For ChartJS --}}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.3.0/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     @isset($data)
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script>
+        <script type="text/javascript">
             const ctx = document.getElementById('myChart');
-
-            new Chart(ctx, {
+            const data = {
+                labels: {!! json_encode($labels) !!},
+                datasets: [{
+                    label: 'Prosentase Harian',
+                    data: {!! json_encode($data) !!},
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            };
+            const config = {
                 type: 'line',
-                data: {
-                    labels: {!! json_encode($labels) !!},
-                    datasets: [{
-                        label: 'Prosentase Harian',
-                        data: {!! json_encode($data) !!},
-                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                        borderColor: 'rgba(255, 99, 132, 1)',
-                        borderWidth: 1
-                    }]
-                },
+                data: data,
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
@@ -172,7 +145,11 @@
                         }]
                     }
                 }
-            });
+            }
+
+            new Chart(
+                ctx, config
+            )
         </script>
     @endisset
 

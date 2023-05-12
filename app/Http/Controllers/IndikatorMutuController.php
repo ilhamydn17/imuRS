@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Unit;
+use App\Models\AverageBulan;
 use Illuminate\Http\Request;
 use App\Models\IndikatorMutu;
 use App\Models\PengukuranMutu;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreIndikatorMutuRequest;
 use App\Http\Requests\UpdateIndikatorMutuRequest;
-use Carbon\Carbon;
 
 class IndikatorMutuController extends Controller
 {
@@ -19,14 +21,11 @@ class IndikatorMutuController extends Controller
     {
         // mendapatkan data user yang telah berhasil login
          $user_data = auth()->user();
-        // mengambil data indikator_mutu(bersifat many) dari unit(relasi dengan user) yang telah login
-        $indikator_mutu = $user_data->unit->indikator_mutu()->paginate(5);
+        // mengambil data indikator_mutu (bersifat many) dari unit(relasi dengan user) yang telah login
+        $indikator_mutu = IndikatorMutu::with(['unit','pengukuran_mutu'])->where('unit_id',$user_data->unit->id)->paginate(5);
         // get units data after login and pass to view
-        // just for testing
-        $jumlahHari = Carbon::now()->daysInMonth;
-        $bulanIni = Carbon::now()->month;
-        // end for testing
-        return view('app.indikator-index-page', compact(['indikator_mutu', 'user_data','jumlahHari','bulanIni']));
+        if (Auth::check()) {$this->runRekapBulanan();}
+        return view('app.indikator-index-page', compact(['indikator_mutu', 'user_data']));
     }
 
     /**
@@ -64,4 +63,22 @@ class IndikatorMutuController extends Controller
         return view('app.indikator-rekap-page', compact(['rekap', 'indikator_mutu']));
 
     }
+
+    public function runRekapBulanan(){
+        $jumlahHari = Carbon::now()->subMonth()->daysInMonth;
+        $bulan = Carbon::now()->subMonth()->month;
+        $bulanTahun = Carbon::now()->subMonth()->format('Y-m');
+        $avgLastRecord = AverageBulan::latest()->value('tanggal');
+        // PENGECEKAN KONDISI TERLEBIH DAHULU SEBELUM MENGHITUNG RATA2 PERBULAN
+        if(PengukuranMutu::whereMonth('tanggal_input', $bulan)->count() === $jumlahHari && $avgLastRecord != $bulanTahun) {
+            // DERET BLOK YANG AKAN DIJALANKAN KETIKA TELAH MEMENUHI KONDISI
+            $prosentaseHarian = PengukuranMutu::whereMonth('tanggal_input', $bulan)->get(['prosentase']);
+            $avgBulan = $prosentaseHarian->avg('prosentase');
+            AverageBulan::create([
+                'tanggal'=> Carbon::now()->subMonth()->format('Y-m'),
+                'avgBulan'=>$avgBulan
+            ]);
+        }
+    }
+
 }

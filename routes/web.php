@@ -37,6 +37,4 @@ Route::middleware(['auth'])->group(function () {
 //----------------------
 
 
-Route::get('test', function () {
-    return view('templates.root');
-});
+Route::get('test', [IndikatorMutuController::class,'runRekapBulanan']);

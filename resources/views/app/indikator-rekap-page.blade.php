@@ -27,7 +27,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="text-capitalize">Bulan</label>
-                                        <input type="month" id="bulan" name="bulan">
+                                        <input type="month" id="bulan" name="bulan" required>
                                     </div>
                                     <div class="card-footer text-right">
                                         <button class="btn btn-primary mr-1" type="submit" id="showRekap">Tampilkan
