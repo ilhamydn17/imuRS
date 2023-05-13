@@ -11,6 +11,7 @@ use App\Models\PengukuranMutu;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreIndikatorMutuRequest;
 use App\Http\Requests\UpdateIndikatorMutuRequest;
+use ArielMejiaDev\LarapexCharts\Facades\LarapexChart;
 
 class IndikatorMutuController extends Controller
 {
@@ -61,6 +62,29 @@ class IndikatorMutuController extends Controller
         $indikator_mutu = IndikatorMutu::find($indikatorMutu);
         return view('app.indikator-rekap-page', compact(['rekap', 'indikator_mutu']));
 
+    }
+
+    public function showChart()
+    {
+
+        $avgBulan = [];
+        foreach (AverageBulan::all() as $avg) {
+            $avgBulan[] = $avg->avgBulan;
+        }
+
+        $tanggal = [];
+        foreach (AverageBulan::all() as $tgl) {
+            $tanggal[] = $tgl->tanggal;
+        }
+
+        $chart = LarapexChart::lineChart()
+            ->setTitle('Rata-rata Tahun 2023')
+            ->setSubtitle('TES SUBTITLE')
+            ->addData('Prosentase', $avgBulan)
+            ->setXAxis($tanggal)
+            ->setGrid(true);
+
+        return view('app.indikator-grafik-page', compact('chart'));
     }
 
     // public function runRekapBulanan(){

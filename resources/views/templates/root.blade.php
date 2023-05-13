@@ -75,7 +75,7 @@
                                     class="fas fa-regular fa-note-sticky"></i><span>Input Harian</span></a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link"><i
+                            <a href="{{ route('indikator-mutu.showChart') }}" class="nav-link"><i
                                     class="fas fa-solid fa-chart-simple"></i><span>Monitoring</span></a>
                         </li>
                         <li class="nav-item">
@@ -107,6 +107,12 @@
         </div>
     </div>
 
+    {{-- FOR LARAPEX --}}
+    @isset($chart)
+        <script src="{{ $chart->cdn() }}"></script>
+        {!! $chart->script() !!}
+    @endisset
+
     <!-- General JS Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
@@ -125,7 +131,6 @@
     <!-- Template JS File -->
     <script src="{{ asset('assets/js/scripts.js') }}"></script>
     <script src="{{ asset('assets/js/custom.js') }}"></script>
-
 </body>
 
 </html>
