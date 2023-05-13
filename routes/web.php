@@ -31,10 +31,6 @@ Route::middleware(['auth'])->group(function () {
     Route::name('indikator-mutu.getRekap')->post('indikator-mutu/getRekap', [IndikatorMutuController::class, 'getRekap']);
     // for pengukuran-mutu
     Route::resource('pengukuran-mutu', PengukuranMutuController::class)->except('show');
-    Route::name('pengukuran-mutu.showChart')->get('pengukuran-mutu/chart', [PengukuranMutuController::class, 'showChart']);
     Route::name('pengukuran-mutu.inputHarian')->get('pengukuran-mutu/input/{id}', [PengukuranMutuController::class, 'inputHarian']);
 });
 //----------------------
-
-
-Route::get('test', [IndikatorMutuController::class,'runRekapBulanan']);

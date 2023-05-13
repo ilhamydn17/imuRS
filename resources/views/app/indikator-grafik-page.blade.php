@@ -20,9 +20,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <div class="chart-container">
-                                <canvas id="myChart" height="300px"></canvas>
-                            </div>
+                            {{-- content --}}
                         </div>
                     </div>
                 </div>

@@ -24,7 +24,6 @@ class IndikatorMutuController extends Controller
         // mengambil data indikator_mutu (bersifat many) dari unit(relasi dengan user) yang telah login
         $indikator_mutu = IndikatorMutu::with(['unit','pengukuran_mutu'])->where('unit_id',$user_data->unit->id)->paginate(5);
         // get units data after login and pass to view
-        if (Auth::check()) {$this->runRekapBulanan();}
         return view('app.indikator-index-page', compact(['indikator_mutu', 'user_data']));
     }
 
@@ -64,21 +63,21 @@ class IndikatorMutuController extends Controller
 
     }
 
-    public function runRekapBulanan(){
-        $jumlahHari = Carbon::now()->subMonth()->daysInMonth;
-        $bulan = Carbon::now()->subMonth()->month;
-        $bulanTahun = Carbon::now()->subMonth()->format('Y-m');
-        $avgLastRecord = AverageBulan::latest()->value('tanggal');
-        // PENGECEKAN KONDISI TERLEBIH DAHULU SEBELUM MENGHITUNG RATA2 PERBULAN
-        if(PengukuranMutu::whereMonth('tanggal_input', $bulan)->count() === $jumlahHari && $avgLastRecord != $bulanTahun) {
-            // DERET BLOK YANG AKAN DIJALANKAN KETIKA TELAH MEMENUHI KONDISI
-            $prosentaseHarian = PengukuranMutu::whereMonth('tanggal_input', $bulan)->get(['prosentase']);
-            $avgBulan = $prosentaseHarian->avg('prosentase');
-            AverageBulan::create([
-                'tanggal'=> Carbon::now()->subMonth()->format('Y-m'),
-                'avgBulan'=>$avgBulan
-            ]);
-        }
-    }
+    // public function runRekapBulanan(){
+    //     $jumlahHari = Carbon::now()->subMonth()->daysInMonth;
+    //     $bulan = Carbon::now()->subMonth()->month;
+    //     $bulanTahun = Carbon::now()->subMonth()->format('Y-m');
+    //     $avgLastRecord = AverageBulan::latest()->value('tanggal');
+    //     // PENGECEKAN KONDISI TERLEBIH DAHULU SEBELUM MENGHITUNG RATA2 PERBULAN
+    //     if(PengukuranMutu::whereMonth('tanggal_input', $bulan)->count() === $jumlahHari && $avgLastRecord != $bulanTahun) {
+    //         // DERET BLOK YANG AKAN DIJALANKAN KETIKA TELAH MEMENUHI KONDISI
+    //         $prosentaseHarian = PengukuranMutu::whereMonth('tanggal_input', $bulan)->get(['prosentase']);
+    //         $avgBulan = $prosentaseHarian->avg('prosentase');
+    //         AverageBulan::create([
+    //             'tanggal'=> Carbon::now()->subMonth()->format('Y-m'),
+    //             'avgBulan'=>$avgBulan
+    //         ]);
+    //     }
+    // }
 
 }

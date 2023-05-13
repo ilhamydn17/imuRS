@@ -9,21 +9,6 @@ use App\Http\Requests\StorePengukuranMutuRequest;
 
 class PengukuranMutuController extends Controller
 {
-    /**
-     * Menampilkan chart dari indikator mutu
-     */
-    public function showChart()
-    {
-       // get data from PengukuranMutu model
-       $datas = DB::table('pengukuran_mutu')->where('indikator_mutu_id', 1)->whereMonth('tanggal_input', 4)->get();
-       $labels = [];
-       $data = [];
-       foreach ($datas as $item) {
-           $labels[] = $item->tanggal_input;
-           $data[] = $item->prosentase;
-       }
-       return view('app.pengukuranMutu-chart-page',compact('labels','data'));
-    }
 
     /**
      * Input Harian Indikator Mutu
