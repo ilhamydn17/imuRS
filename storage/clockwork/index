@@ -211,3 +211,8 @@
 1683941513-3861-1782396623,1683941513.05,GET,/indikator-menu/showChart,"\App\Http\Controllers\IndikatorMutuController@showChart",200,824.74708557129,request
 1683941516-1850-602733283,1683941515.8772,GET,/indikator-menu,"App\Http\Controllers\IndikatorMutuController@index",200,685.13989448547,request
 1683941518-4079-2041665491,1683941518.1402,GET,/indikator-menu/create,"App\Http\Controllers\IndikatorMutuController@create",200,570.81699371338,request
+1683941802-8244-1917120542,1683941802.2805,GET,/indikator-menu/create,"App\Http\Controllers\IndikatorMutuController@create",200,1119.7760105133,request
+1683941815-4771-317454314,1683941815.2193,GET,/indikator-menu/showChart,"\App\Http\Controllers\IndikatorMutuController@showChart",200,540.90809822083,request
+1683941817-8917-819904832,1683941817.5983,GET,/indikator-menu,"App\Http\Controllers\IndikatorMutuController@index",200,696.34103775024,request
+1683941819-6664-66275519,1683941819.3668,GET,/indikator-menu/create,"App\Http\Controllers\IndikatorMutuController@create",200,612.44201660156,request
+1683941836-1359-575158124,1683941835.7851,GET,/indikator-menu/showChart,"\App\Http\Controllers\IndikatorMutuController@showChart",200,686.76018714905,request
