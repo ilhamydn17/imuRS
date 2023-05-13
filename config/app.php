@@ -1,8 +1,9 @@
 <?php
 
-use App\Providers\FortifyServiceProvider;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
+use App\Providers\FortifyServiceProvider;
+use ArielMejiaDev\LarapexCharts\LarapexChartsServiceProvider;
 
 return [
 
@@ -161,8 +162,9 @@ return [
          * Package Service Providers...
          */
 
-         FortifyServiceProvider::class,
-         PrettyRoutes\ServiceProvider::class,
+        FortifyServiceProvider::class,
+        PrettyRoutes\ServiceProvider::class,
+        LarapexChartsServiceProvider::class,
 
         /*
          * Application Service Providers...

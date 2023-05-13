@@ -2,30 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AverageBulan;
 use App\Models\IndikatorMutu;
 use App\Models\PengukuranMutu;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StorePengukuranMutuRequest;
 use App\Http\Requests\UpdatePengukuranMutuRequest;
+use ArielMejiaDev\LarapexCharts\Facades\LarapexChart;
 
 class PengukuranMutuController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        //
-       // get data from PengukuranMutu model
-       $datas = DB::table('pengukuran_mutu')->where('indikator_mutu_id', 1)->whereMonth('tanggal_input', 5)->get();
-       $labels = [];
-       $data = [];
-       foreach ($datas as $item) {
-           $labels[] = $item->tanggal_input;
-           $data[] = $item->prosentase;
-       }
-       return view('app.monitoring-page',compact('labels','data'));
-    }
+  
 
     /**
      * Show the form for creating a new resource.

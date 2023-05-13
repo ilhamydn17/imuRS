@@ -24,12 +24,9 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth'])->group(function () {
-    Route::resource('indikator-menu', IndikatorMutuController::class);
+    Route::resource('indikator-menu', IndikatorMutuController::class)->except(['show']);
     Route::resource('input-harian', PengukuranMutuController::class);
+    Route::name('indikator-menu.showChart')->get('indikator-menu/showChart', [IndikatorMutuController::class, 'showChart']);
 });
 //----------------------
 
-
-Route::get('test', function () {
-    return view('templates.root');
-});

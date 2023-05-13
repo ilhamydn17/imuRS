@@ -21,7 +21,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="chart-container">
-                                    <canvas id="myChart" height="100px"></canvas>
+                                    {{ $chart->container()  }}
                                 </div>
                             </div>
                         </div>

@@ -12,6 +12,7 @@ use App\Models\PengukuranMutu;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Database\Seeders\AverageBulanSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -21,7 +22,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-           pengukuranMutuSeeder::class,
+            AverageBulanSeeder::class,
         ]);
     }
 }
