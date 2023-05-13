@@ -1,5 +1,5 @@
 @extends('templates.root')
-
+@section('title', 'Grafik Data')
 @section('content')
     <div class="section">
         <div class="section-header">

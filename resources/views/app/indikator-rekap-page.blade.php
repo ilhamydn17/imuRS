@@ -1,5 +1,5 @@
 @extends('templates.root')
-
+@section('title', 'Rekap Data')
 @section('content')
     <section class="section">
         <div class="section-header">

@@ -1,5 +1,5 @@
 @extends('templates.root')
-
+@section('title', 'Input Harian')
 @section('content')
     <section class="section">
         <div class="section-header">

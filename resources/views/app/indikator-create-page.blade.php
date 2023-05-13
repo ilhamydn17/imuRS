@@ -1,5 +1,5 @@
 @extends('templates.root')
-
+@section('title', 'Tambah Indikator')
 @section('content')
     <section class="section">
         <div class="section-header">
