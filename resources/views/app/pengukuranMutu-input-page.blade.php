@@ -14,7 +14,7 @@
                             <h4>Form Input</h4>
                         </div>
                         <div class="card-body">
-                            <form action="{{ route('input-harian.store') }}" method="POST">
+                            <form action="{{ route('pengukuran-mutu.store') }}" method="POST">
                                 @csrf
                                 <div class="form-group">
                                     <label class="text-capitalize">{{ $cur_indikator->nama_numerator }} (numerator)</label>
@@ -52,7 +52,7 @@
                     </div>
                 </div>
             </div>
-            
+
         </div>
     </section>
 @endsection

@@ -2,8 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Unit;
+use App\Models\AverageBulan;
+use Illuminate\Http\Request;
 use App\Models\IndikatorMutu;
+use App\Models\PengukuranMutu;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreIndikatorMutuRequest;
 use App\Http\Requests\UpdateIndikatorMutuRequest;
 
@@ -15,11 +20,12 @@ class IndikatorMutuController extends Controller
     public function index()
     {
         // mendapatkan data user yang telah berhasil login
-        if(auth()->check()) $user_data = auth()->user();
-        // mengambil data indikator_mutu(bersifat many) dari unit(relasi dengan user) yang telah login
-        $indikator_mutu = $user_data->unit->indikator_mutu()->paginate(5);
-        // get units data after login and pass to vieww
-        return view('app.indikator-page', compact(['indikator_mutu', 'user_data']));
+         $user_data = auth()->user();
+        // mengambil data indikator_mutu (bersifat many) dari unit(relasi dengan user) yang telah login
+        $indikator_mutu = IndikatorMutu::with(['unit','pengukuran_mutu'])->where('unit_id',$user_data->unit->id)->paginate(5);
+        // get units data after login and pass to view
+        if (Auth::check()) {$this->runRekapBulanan();}
+        return view('app.indikator-index-page', compact(['indikator_mutu', 'user_data']));
     }
 
     /**
@@ -28,7 +34,7 @@ class IndikatorMutuController extends Controller
     public function create()
     {
         $data_unit = Unit::all();
-        return view('app.create-indikator', compact('data_unit'));
+        return view('app.indikator-create-page', compact('data_unit'));
     }
 
     /**
@@ -37,38 +43,42 @@ class IndikatorMutuController extends Controller
     public function store(StoreIndikatorMutuRequest $request)
     {
         IndikatorMutu::create($request->validated());
-        return redirect()->route('indikator-menu.index')->with('success', 'Indikator Mutu berhasil ditambahkan');
+        return redirect()->route('indikator-mutu.index')->with('success', 'Indikator Mutu berhasil ditambahkan');
     }
 
     /**
-     * Display the specified resource.
+     * Rekapitulasi indikator mutu
      */
-    public function show(IndikatorMutu $indikatorMutu)
-    {
+    public function showRekap(){
+        $data_indikator = auth()->user()->unit->indikator_mutu;
+        return view('app.indikator-rekap-page', compact('data_indikator'));
+    }
+
+    public function getRekap(Request $request){
+        $tanggal = $request->input('tanggal');
+        $bulan = $request->input('bulan');
+        $indikatorMutu = $request->input('indikator_mutu_id');
+        $rekap = PengukuranMutu::where('tanggal_input', 'like', "%{$bulan}%")->where('indikator_mutu_id','=',$indikatorMutu)->get();
+        $indikator_mutu = IndikatorMutu::find($indikatorMutu);
+        return view('app.indikator-rekap-page', compact(['rekap', 'indikator_mutu']));
 
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(IndikatorMutu $indikatorMutu)
-    {
-
+    public function runRekapBulanan(){
+        $jumlahHari = Carbon::now()->subMonth()->daysInMonth;
+        $bulan = Carbon::now()->subMonth()->month;
+        $bulanTahun = Carbon::now()->subMonth()->format('Y-m');
+        $avgLastRecord = AverageBulan::latest()->value('tanggal');
+        // PENGECEKAN KONDISI TERLEBIH DAHULU SEBELUM MENGHITUNG RATA2 PERBULAN
+        if(PengukuranMutu::whereMonth('tanggal_input', $bulan)->count() === $jumlahHari && $avgLastRecord != $bulanTahun) {
+            // DERET BLOK YANG AKAN DIJALANKAN KETIKA TELAH MEMENUHI KONDISI
+            $prosentaseHarian = PengukuranMutu::whereMonth('tanggal_input', $bulan)->get(['prosentase']);
+            $avgBulan = $prosentaseHarian->avg('prosentase');
+            AverageBulan::create([
+                'tanggal'=> Carbon::now()->subMonth()->format('Y-m'),
+                'avgBulan'=>$avgBulan
+            ]);
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateIndikatorMutuRequest $request, IndikatorMutu $indikatorMutu)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(IndikatorMutu $indikatorMutu)
-    {
-        //
-    }
 }

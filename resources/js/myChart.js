@@ -1,4 +1,5 @@
 "use strict";
+import Chart from "chart.js/auto";
 // ChartJS
 if(window.Chart) {
   Chart.defaults.global.defaultFontFamily = "'Nunito', 'Segoe UI', 'Arial'";

@@ -13,20 +13,20 @@ class UnitSeeder extends Seeder
      */
     public function run(): void
     {
-        Unit::create([
-                'user_id'=>1,
-                'nama_unit'=>'Ruang Bougenville',
-        ]);
+        // Unit::create([
+        //         'user_id'=>1,
+        //         'nama_unit'=>'Instalasi Gawat Darurat',
+        // ]);
 
-        Unit::create([
-                'user_id'=>2,
-                'nama_unit'=>'Ruang Anggrek',
-        ]);
+        // Unit::create([
+        //         'user_id'=>2,
+        //         'nama_unit'=>'Ruang Anggrek',
+        // ]);
 
-        Unit::create([
-                'user_id'=>3,
-                'nama_unit'=>'Instalasi Gawat Darurat',
-        ]);
+        // Unit::create([
+        //         'user_id'=>3,
+        //         'nama_unit'=>'Instalasi Gawat Darurat',
+        // ]);
     }
 }
 

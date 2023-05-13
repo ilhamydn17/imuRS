@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Root Page &mdash; Stisla</title>
 
     {{-- FOR CHART --}}
@@ -24,6 +25,9 @@
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/components.css') }}">
+
+    {{-- jquery --}}
+
 </head>
 
 <body>
@@ -41,7 +45,8 @@
                 <ul class="navbar-nav navbar-right">
                     <li class="dropdown"><a href="#" data-toggle="dropdown"
                             class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-                            <img alt="image" src="../assets/img/avatar/avatar-1.png" class="rounded-circle mr-1">
+                            <img alt="image" src="{{ asset('assets/img/avatar/avatar-1.png') }}"
+                                class="rounded-circle mr-1">
                             <div class="d-sm-none d-lg-inline-block">{{ auth()->user()->unit->nama_unit }}</div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
@@ -73,16 +78,20 @@
                         {{-- konten menu yang ada di sidebar --}}
                         <li class="menu-header">Menu</li>
                         <li class="nav-item">
-                            <a href="{{ route('indikator-menu.index') }}" class="nav-link"><i
+                            <a href="{{ route('indikator-mutu.index') }}" class="nav-link"><i
                                     class="fas fa-regular fa-note-sticky"></i><span>Input Harian</span></a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('input-harian.index') }}" class="nav-link"><i
+                            <a href="{{ route('pengukuran-mutu.showChart') }}" class="nav-link"><i
                                     class="fas fa-solid fa-chart-simple"></i><span>Monitoring</span></a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('indikator-menu.create') }}" class="nav-link"><i
+                            <a href="{{ route('indikator-mutu.create') }}" class="nav-link"><i
                                     class="fas fa-solid fa-chart-simple"></i><span>Insert Data Indikator</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('indikator-mutu.showRekap') }}" class="nav-link"><i
+                                    class="fas fa-solid fa-chart-simple"></i><span>Rekap Data Bulanan</span></a>
                         </li>
                     </ul>
                 </aside>
@@ -106,26 +115,28 @@
     </div>
 
 
-    {{-- OR LOADING CHARTJS --}}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.3.0/chart.min.js"></script>
-    @isset($labels && $data)
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script>
+    {{-- For ChartJS --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    @isset($data)
+        <script type="text/javascript">
             const ctx = document.getElementById('myChart');
-
-            new Chart(ctx, {
+            const data = {
+                labels: {!! json_encode($labels) !!},
+                datasets: [{
+                    label: 'Prosentase Harian',
+                    data: {!! json_encode($data) !!},
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            };
+            const config = {
                 type: 'line',
-                data: {
-                    labels: {!! json_encode($labels) !!},
-                    datasets: [{
-                        label: 'Prosentase Harian',
-                        data: {!! json_encode($data) !!},
-                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                        borderColor: 'rgba(255, 99, 132, 1)',
-                        borderWidth: 1
-                    }]
-                },
+                data: data,
                 options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
                     scales: {
                         yAxes: [{
                             ticks: {
@@ -134,7 +145,11 @@
                         }]
                     }
                 }
-            });
+            }
+
+            new Chart(
+                ctx, config
+            )
         </script>
     @endisset
 
@@ -156,8 +171,6 @@
     <!-- Template JS File -->
     <script src="{{ asset('assets/js/scripts.js') }}"></script>
     <script src="{{ asset('assets/js/custom.js') }}"></script>
-
-    <!-- Page Specific JS File -->
 
 </body>
 
