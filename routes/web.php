@@ -25,13 +25,12 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth'])->group(function () {
-    // For indikator-mutu
+    // Routing indikator-mutu
     Route::resource('indikator-mutu', IndikatorMutuController::class)->except('show');
     Route::name('indikator-mutu.showRekap')->get('indikator-mutu/rekap', [IndikatorMutuController::class, 'showRekap']);
     Route::name('indikator-mutu.getRekap')->post('indikator-mutu/getRekap', [IndikatorMutuController::class, 'getRekap']);
-    Route::name('indikator-mutu.showChart')->get('indikator-mutu/showChart', [IndikatorMutuController::class, 'showChart']);
 
-    // For pengukuran-mutu
+    // ROuting pengukuran-mutu
     Route::resource('pengukuran-mutu', PengukuranMutuController::class)->except('show');
     Route::name('pengukuran-mutu.inputHarian')->get('pengukuran-mutu/input/{id}', [PengukuranMutuController::class, 'inputHarian']);
 });

@@ -25,7 +25,7 @@ class PengukuranMutuFactory extends Factory
             'indikator_mutu_id' => 1,
             'numerator'=>$this->faker->numberBetween(1, 10),
             'denumerator'=>$this->faker->numberBetween(1, 10),
-            'tanggal_input' => now()->setDays($tanggal++)->setMonth(4)->setYear(2023),
+            'tanggal_input' => now()->setDays($tanggal++)->setMonth(5)->setYear(2023),
             'prosentase'=> $this->faker->randomFloat(2, 60, 100)
         ];
     }

@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostGrafikRequest;
 use Carbon\Carbon;
 use App\Models\Unit;
 use App\Models\AverageBulan;
 use Illuminate\Http\Request;
 use App\Models\IndikatorMutu;
 use App\Models\PengukuranMutu;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreIndikatorMutuRequest;
 use App\Http\Requests\UpdateIndikatorMutuRequest;
@@ -16,20 +18,21 @@ use ArielMejiaDev\LarapexCharts\Facades\LarapexChart;
 class IndikatorMutuController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Halaman pertama yang ditampilkan saat user berhasil login
      */
     public function index()
     {
+
         // mendapatkan data user yang telah berhasil login
          $user_data = auth()->user();
         // mengambil data indikator_mutu (bersifat many) dari unit(relasi dengan user) yang telah login
-        $indikator_mutu = IndikatorMutu::with(['unit','pengukuran_mutu'])->where('unit_id',$user_data->unit->id)->paginate(5);
+        $indikator_mutu = IndikatorMutu::with(['pengukuran_mutu'])->where('unit_id',$user_data->unit->id)->paginate(5);
         // get units data after login and pass to view
         return view('app.indikator-index-page', compact(['indikator_mutu', 'user_data']));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Menampilkan view untuk form membuat input baru
      */
     public function create()
     {
@@ -38,7 +41,7 @@ class IndikatorMutuController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Menyimpan data indikator mutu yang baru ke database
      */
     public function store(StoreIndikatorMutuRequest $request)
     {
@@ -47,61 +50,22 @@ class IndikatorMutuController extends Controller
     }
 
     /**
-     * Rekapitulasi indikator mutu
+     * Menampilkan view untuk form pencarian data rekap harian
      */
     public function showRekap(){
         $data_indikator = auth()->user()->unit->indikator_mutu;
         return view('app.indikator-rekap-page', compact('data_indikator'));
     }
 
+     /**
+     * Mengembalikan data hasil rekap
+     */
     public function getRekap(Request $request){
         $tanggal = $request->input('tanggal');
         $bulan = $request->input('bulan');
         $indikatorMutu = $request->input('indikator_mutu_id');
-        $rekap = PengukuranMutu::where('tanggal_input', 'like', "%{$bulan}%")->where('indikator_mutu_id','=',$indikatorMutu)->get();
+        $rekap = PengukuranMutu::with('indikator_mutu')->where('tanggal_input', 'like', "%{$bulan}%")->where('indikator_mutu_id','=',$indikatorMutu)->get();
         $indikator_mutu = IndikatorMutu::find($indikatorMutu);
         return view('app.indikator-rekap-page', compact(['rekap', 'indikator_mutu']));
-
     }
-
-    public function showChart()
-    {
-
-        $avgBulan = [];
-        foreach (AverageBulan::all() as $avg) {
-            $avgBulan[] = $avg->avgBulan;
-        }
-
-        $tanggal = [];
-        foreach (AverageBulan::all() as $tgl) {
-            $tanggal[] = $tgl->tanggal;
-        }
-
-        $chart = LarapexChart::lineChart()
-            ->setTitle('Rata-rata Tahun 2023')
-            ->setSubtitle('TES SUBTITLE')
-            ->addData('Prosentase', $avgBulan)
-            ->setXAxis($tanggal)
-            ->setGrid(true);
-
-        return view('app.indikator-grafik-page', compact('chart'));
-    }
-
-    // public function runRekapBulanan(){
-    //     $jumlahHari = Carbon::now()->subMonth()->daysInMonth;
-    //     $bulan = Carbon::now()->subMonth()->month;
-    //     $bulanTahun = Carbon::now()->subMonth()->format('Y-m');
-    //     $avgLastRecord = AverageBulan::latest()->value('tanggal');
-    //     // PENGECEKAN KONDISI TERLEBIH DAHULU SEBELUM MENGHITUNG RATA2 PERBULAN
-    //     if(PengukuranMutu::whereMonth('tanggal_input', $bulan)->count() === $jumlahHari && $avgLastRecord != $bulanTahun) {
-    //         // DERET BLOK YANG AKAN DIJALANKAN KETIKA TELAH MEMENUHI KONDISI
-    //         $prosentaseHarian = PengukuranMutu::whereMonth('tanggal_input', $bulan)->get(['prosentase']);
-    //         $avgBulan = $prosentaseHarian->avg('prosentase');
-    //         AverageBulan::create([
-    //             'tanggal'=> Carbon::now()->subMonth()->format('Y-m'),
-    //             'avgBulan'=>$avgBulan
-    //         ]);
-    //     }
-    // }
-
 }
