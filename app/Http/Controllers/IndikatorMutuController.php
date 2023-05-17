@@ -22,12 +22,10 @@ class IndikatorMutuController extends Controller
      */
     public function index()
     {
-
-        // mendapatkan data user yang telah berhasil login
+        // Mendapatkan data user yang telah berhasil login
          $user_data = auth()->user();
-        // mengambil data indikator_mutu (bersifat many) dari unit(relasi dengan user) yang telah login
+        // Mengambil data indikator_mutu (bersifat many) dari unit(relasi dengan user) yang telah login
         $indikator_mutu = IndikatorMutu::with(['pengukuran_mutu'])->where('unit_id',$user_data->unit->id)->paginate(5);
-        // get units data after login and pass to view
         return view('app.indikator-index-page', compact(['indikator_mutu', 'user_data']));
     }
 
