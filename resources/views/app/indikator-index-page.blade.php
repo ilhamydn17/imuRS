@@ -45,7 +45,7 @@
                                             @if ($item->pengukuran_mutu->count() > 0 && $item->pengukuran_mutu->last()->tanggal_input == now()->format('Y-m-d'))
                                                 <a href="#" class="btn btn-success" style="cursor:default">Terisi</a>
                                             @else
-                                                <a href="#" class="btn btn-warning disabled">Kosong</a>
+                                                <a href="#" class="btn btn-warning">Kosong</a>
                                             @endif
                                         </td>
                                         <td>

@@ -32,7 +32,7 @@ class PengukuranMutuController extends Controller
 
         // Mengembalikan ke halaman sebelumnya jika nilai numerator lebih besar dari nilai denumerator
         if ($denumerator < $numerator){
-            Alert::error('Gagal', 'Nilai Numerator Tidak Boleh Lebih Besar Dari Nilai Denumerator');
+            Alert::error('Gagal', 'Numerator lebih besar dari Denumerator');
             return redirect()->route('indikator-mutu.index');
         }
 

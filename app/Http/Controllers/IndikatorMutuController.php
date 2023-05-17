@@ -56,11 +56,10 @@ class IndikatorMutuController extends Controller
      * Mengembalikan data hasil rekap
      */
     public function getRekap(Request $request){
-        $tanggal = $request->input('tanggal');
         $bulan = $request->input('bulan');
         $indikator_mutu_id = $request->input('indikator_mutu_id');
         $rekap = PengukuranMutu::with('indikator_mutu')->where('tanggal_input', 'like', "%{$bulan}%")->where('indikator_mutu_id','=',$indikator_mutu_id)->get();
         $indikator_mutu = IndikatorMutu::find($indikator_mutu_id);
-        return view('app.indikator-rekap-page', compact(['rekap', 'indikator_mutu']));
+        return view('app.indikator-rekap-page', compact(['rekap', 'indikator_mutu','bulan']));
     }
 }

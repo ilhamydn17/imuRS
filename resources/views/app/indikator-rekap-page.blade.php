@@ -47,10 +47,8 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="container mt-2">
-                                    {{-- set format to diff for humans in Indonesian--}}
-
-                                    {{-- <h4 class="text-capitalize text-center mb-4">Rekap {{ $indikator_mutu->nama_indikator }} - {{ \Carbon\Carbon::parse($rekap->first()->tanggal_input)->format('F Y') }}</h4> --}}
-                                    <table class="table table-sm table-bordered table-hover text-center">
+                                    <h4 class="text-capitalize text-center mb-4">Rekap {{ $indikator_mutu->nama_indikator }} - [{{ \Carbon\Carbon::parse($bulan)->format('F Y') }}]</h4>
+                                    <table class="table table-sm table-bordered text-center">
                                         <tr>
                                             <th>Tanggal Input</th>
                                             <th class="text-capitalize">{{ $indikator_mutu->nama_numerator }}</th>
