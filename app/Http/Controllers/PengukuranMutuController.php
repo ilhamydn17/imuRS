@@ -11,18 +11,18 @@ class PengukuranMutuController extends Controller
 {
 
     /**
-     * Input Harian Indikator Mutu
+     * Menampilkan view untuk form input harian
      */
     public function inputHarian($id)
     {
         $cur_indikator = auth()->user()->unit->indikator_mutu->find($id);
         // check if data already inputted and date is today
-        if( $cur_indikator->pengukuran_mutu->count() > 0 && $cur_indikator->pengukuran_mutu->last()->tanggal_input == now()->format('Y-m-d')) return back()->with('error', 'Data telah diinput');
+        // if( $cur_indikator->pengukuran_mutu->count() > 0 && $cur_indikator->pengukuran_mutu->last()->tanggal_input == now()->format('Y-m-d')) return back()->with('error', 'Data telah diinput');
         return view('app.pengukuranMutu-input-page', compact('cur_indikator'));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Menyimpan data pengukuran mutu yang baru ke database
      */
     public function store(StorePengukuranMutuRequest $request)
     {

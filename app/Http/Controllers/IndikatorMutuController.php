@@ -23,7 +23,7 @@ class IndikatorMutuController extends Controller
     public function index()
     {
         // Mendapatkan data user yang telah berhasil login
-         $user_data = auth()->user();
+        $user_data = auth()->user();
         // Mengambil data indikator_mutu (bersifat many) dari unit(relasi dengan user) yang telah login
         $indikator_mutu = IndikatorMutu::with(['pengukuran_mutu'])->where('unit_id',$user_data->unit->id)->paginate(5);
         return view('app.indikator-index-page', compact(['indikator_mutu', 'user_data']));
@@ -61,9 +61,9 @@ class IndikatorMutuController extends Controller
     public function getRekap(Request $request){
         $tanggal = $request->input('tanggal');
         $bulan = $request->input('bulan');
-        $indikatorMutu = $request->input('indikator_mutu_id');
-        $rekap = PengukuranMutu::with('indikator_mutu')->where('tanggal_input', 'like', "%{$bulan}%")->where('indikator_mutu_id','=',$indikatorMutu)->get();
-        $indikator_mutu = IndikatorMutu::find($indikatorMutu);
+        $indikator_mutu_id = $request->input('indikator_mutu_id');
+        $rekap = PengukuranMutu::with('indikator_mutu')->where('tanggal_input', 'like', "%{$bulan}%")->where('indikator_mutu_id','=',$indikator_mutu_id)->get();
+        $indikator_mutu = IndikatorMutu::find($indikator_mutu_id);
         return view('app.indikator-rekap-page', compact(['rekap', 'indikator_mutu']));
     }
 }

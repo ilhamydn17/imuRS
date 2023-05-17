@@ -51,6 +51,7 @@
                 <div class="footer-left">
                     Copyright &copy; 2018 <div class="bullet"></div> Design By <a href="https://nauval.in/">Muhamad
                         Nauval Azhar</a>
+                    <div class="bullet"></div> Laravel Code By <a href="https://www.linkedin.com/in/ilham-yudantyo-84a684146/">Ilham Yudantyo</a>
                 </div>
                 <div class="footer-right">
                     2.3.0
