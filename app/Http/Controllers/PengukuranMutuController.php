@@ -6,6 +6,7 @@ use App\Models\IndikatorMutu;
 use App\Models\PengukuranMutu;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StorePengukuranMutuRequest;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class PengukuranMutuController extends Controller
 {
@@ -16,8 +17,6 @@ class PengukuranMutuController extends Controller
     public function inputHarian($id)
     {
         $cur_indikator = auth()->user()->unit->indikator_mutu->find($id);
-        // check if data already inputted and date is today
-        // if( $cur_indikator->pengukuran_mutu->count() > 0 && $cur_indikator->pengukuran_mutu->last()->tanggal_input == now()->format('Y-m-d')) return back()->with('error', 'Data telah diinput');
         return view('app.pengukuranMutu-input-page', compact('cur_indikator'));
     }
 
@@ -26,13 +25,16 @@ class PengukuranMutuController extends Controller
      */
     public function store(StorePengukuranMutuRequest $request)
     {
-        //get value of numerator from request
+        // Mengambil nilai numerator dari request
         $numerator = $request->input('numerator');
-        //get value of denumerator from request
+        // Mengambil nilai demumerator dari request
         $denumerator = $request->input('denumerator');
 
-        // return error if denumerator smaller than numerator
-        if ($denumerator < $numerator) return redirect()->route('indikator-mutu.index')->with('error', 'Data Gagal Diinput! periksa kembali inputan');
+        // Mengembalikan ke halaman sebelumnya jika nilai numerator lebih besar dari nilai denumerator
+        if ($denumerator < $numerator){
+            Alert::error('Gagal', 'Nilai Numerator Tidak Boleh Lebih Besar Dari Nilai Denumerator');
+            return redirect()->route('indikator-mutu.index');
+        }
 
         // count the percentage from numerator and denumerator
         $percentage = $numerator / $denumerator * 100;
@@ -41,7 +43,8 @@ class PengukuranMutuController extends Controller
         // store all data to database in tabel PengukuranMutu
         PengukuranMutu::create($request->all());
 
-        return redirect()->route('indikator-mutu.index')->with('success', 'Data Berhasil Diinput!');;
+        Alert::success('Berhasil', 'Input Berhasil Ditambahkan');
+        return redirect()->route('indikator-mutu.index');
     }
 
 }

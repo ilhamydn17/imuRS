@@ -2,18 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\PostGrafikRequest;
-use Carbon\Carbon;
+
 use App\Models\Unit;
-use App\Models\AverageBulan;
+use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Http\Request;
 use App\Models\IndikatorMutu;
 use App\Models\PengukuranMutu;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreIndikatorMutuRequest;
-use App\Http\Requests\UpdateIndikatorMutuRequest;
-use ArielMejiaDev\LarapexCharts\Facades\LarapexChart;
+
 
 class IndikatorMutuController extends Controller
 {
@@ -44,7 +40,8 @@ class IndikatorMutuController extends Controller
     public function store(StoreIndikatorMutuRequest $request)
     {
         IndikatorMutu::create($request->validated());
-        return redirect()->route('indikator-mutu.index')->with('success', 'Indikator Mutu berhasil ditambahkan');
+        Alert::success('Berhasil', 'Data Indikator Mutu Berhasil Ditambahkan');
+        return redirect()->route('indikator-mutu.index');
     }
 
     /**

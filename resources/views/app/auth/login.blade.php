@@ -1,5 +1,7 @@
 @extends('templates.custom')
 
+@section('title', 'Login')
+
 @section('content')
 <section class="section">
     <div class="container mt-5">
@@ -19,7 +21,7 @@
                   <label for="username">Username</label>
                   <input id="username" type="username" class="form-control @error('username')
                     is-invalid
-                  @enderror " name="username" tabindex="1" autofocus>
+                  @enderror " name="username" tabindex="1" autocomplete="off" autofocus>
                   @error('username')
                   <div class="invalid-feedback">
                       {{ $message }}
@@ -35,7 +37,7 @@
                   </div>
                   <input id="password" type="password" class="form-control @error('password')
                     is-invalid
-                  @enderror" name="password" tabindex="2">
+                  @enderror" name="password" tabindex="2" autocomplete="off">
                   @error('password')
                   <div class="invalid-feedback">
                       {{ $message }}
