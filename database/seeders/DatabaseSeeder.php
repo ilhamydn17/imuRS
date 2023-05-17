@@ -10,9 +10,10 @@ use Illuminate\Support\Str;
 use App\Models\IndikatorMutu;
 use App\Models\PengukuranMutu;
 use Illuminate\Database\Seeder;
+use Database\Seeders\UnitSeeder;
+use Database\Seeders\UserSeeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Database\Seeders\AverageBulanSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,7 +23,8 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            AverageBulanSeeder::class,
+            // UserSeeder::class,
+            UnitSeeder::class,
         ]);
     }
 }

@@ -54,7 +54,7 @@
             </div>
           </div>
           <div class="simple-footer">
-            Copyright &copy; RSAU Abdulrachman Saleh 2023
+            Copyright &copy; Stisla 2018
           </div>
         </div>
       </div>
