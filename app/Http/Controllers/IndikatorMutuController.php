@@ -30,7 +30,7 @@ class IndikatorMutuController extends Controller
      */
     public function create()
     {
-        $data_unit = Unit::all();
+        $data_unit = auth()->user()->unit;
         return view('app.indikator-create-page', compact('data_unit'));
     }
 
@@ -39,13 +39,15 @@ class IndikatorMutuController extends Controller
      */
     public function store(StoreIndikatorMutuRequest $request)
     {
+
         IndikatorMutu::create($request->validated());
+
         Alert::success('Berhasil', 'Data Indikator Mutu Berhasil Ditambahkan');
         return redirect()->route('indikator-mutu.index');
     }
 
     /**
-     * Menampilkan view untuk form pencarian data rekap harian
+     * Menampilkan view untuk form penyajian data rekap harian
      */
     public function showRekap(){
         $data_indikator = auth()->user()->unit->indikator_mutu;

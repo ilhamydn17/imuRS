@@ -14,15 +14,13 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        //make seeder for user
+        // Make seeder for user
         User::create([
-            'unit_id'=>1,
             'username'=>'instalasigawatdarurat',
             'password'=>Hash::make('password'),
         ]);
 
         User::create([
-            'unit_id'=>2,
             'username'=>'ruanganggrek',
             'password'=>Hash::make('password'),
         ]);

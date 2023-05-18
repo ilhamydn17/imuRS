@@ -164,8 +164,6 @@ return [
 
          FortifyServiceProvider::class,
          PrettyRoutes\ServiceProvider::class,
-         LarapexChartsServiceProvider::class,
-         Barryvdh\Debugbar\ServiceProvider::class,
          RealRashid\SweetAlert\SweetAlertServiceProvider::class,
 
         /*
