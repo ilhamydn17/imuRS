@@ -16,7 +16,7 @@ class Unit extends Model
         'nama_unit',
     ];
 
-    public $table = "units";
+    public $table = "unit";
 
     public function user()
     {

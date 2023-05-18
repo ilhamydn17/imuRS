@@ -13,8 +13,6 @@ return new class extends Migration
     {
         Schema::create('pengukuran_mutu', function (Blueprint $table) {
             $table->id();
-            // $table->unsignedBigInteger('indikator_mutu_id')->nullable()->unique();
-            // $table->foreign('indikator_mutu_id')->references('id')->on('indikator_mutu')->onDelete('cascade');
             $table->decimal('numerator');
             $table->decimal('denumerator');
             $table->decimal('prosentase');
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pengukuran_mutus');
+        Schema::dropIfExists('pengukuran_mutu');
     }
 };

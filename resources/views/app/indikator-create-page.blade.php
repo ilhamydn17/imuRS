@@ -3,7 +3,7 @@
 @section('content')
     <section class="section">
         <div class="section-header">
-            <h1>Tambah Indikator Mutu Unit</h1>
+            <h1>Tambah Kategori Indikator Mutu Unit</h1>
         </div>
 
         <div class="section-body">
@@ -11,7 +11,7 @@
                 <div class="col-10">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Form Input Indikator Mutu</h4>
+                            <h4>Form Input Data Kategor</h4>
                         </div>
 
                         <div class="card-body">
@@ -19,23 +19,48 @@
                                 @csrf
                                 <div class="form-group">
                                     <label>Nama Unit</label>
-                                    <select class="form-control" name="unit_id">
-                                        @foreach ($data_unit as $item)
-                                            <option value="{{ $item->id }}">{{ $item->nama_unit }}</option>
-                                        @endforeach
-                                    </select>
+                                    <input type="text" value="{{ $data_unit->nama_unit }}"
+                                        class="form-control text-uppercase" readonly>
+                                    <input type="hidden" name="unit_id" value="{{ $data_unit->id }}">
                                 </div>
                                 <div class="form-group">
                                     <label>Nama Indikator Mutu</label>
-                                    <input type="text" class="form-control text-uppercase" name="nama_indikator">
+                                    <input type="text"
+                                        class="form-control text-uppercase @error('nama_indikator')
+                                        is-invalid
+                                    @enderror"
+                                        name="nama_indikator" autocomplete="off">
+
+                                    @error('nama_indikator')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
                                 </div>
                                 <div class="form-group">
                                     <label>Nama Numerator</label>
-                                    <input type="text" class="form-control text-capitalize" name="nama_numerator">
+                                    <input type="text"
+                                        class="form-control text-capitalize @error('nama_numerator')
+                                        is-invalid
+                                    @enderror"
+                                        name="nama_numerator" autocomplete="off">
+                                    @error('nama_numerator')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
                                 </div>
                                 <div class="form-group">
                                     <label>Nama Denumerator</label>
-                                    <input type="text" class="form-control text-capitalize" name="nama_denumerator">
+                                    <input type="text" class="form-control text-capitalize @error('nama_denumerator')
+                                        is-invalid
+                                    @enderror" name="nama_denumerator" autocomplete="off">
+
+                                    @error('nama_denumerator')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
                                 </div>
                                 <div class="card-footer text-right">
                                     <button class="btn btn-primary mr-1" type="submit">Submit</button>

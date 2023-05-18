@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('pengukuran_mutu', function (Blueprint $table) {
-            // $table->unsignedBigInteger('indikator_mutu_id')->after('id')->nullable();
+            $table->unsignedBigInteger('indikator_mutu_id')->after('id')->nullable();
             $table->foreign('indikator_mutu_id')->references('id')->on('indikator_mutu')->onDelete('cascade');
         });
     }
@@ -25,7 +25,7 @@ return new class extends Migration
         Schema::table('pengukuran_mutu', function (Blueprint $table) {
             //rollback
             $table->dropForeign(['indikator_mutu_id']);
-            // $table->dropColumn('indikator_mutu_id');
+            $table->dropColumn('indikator_mutu_id');
         });
     }
 };

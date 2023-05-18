@@ -13,10 +13,10 @@
                     class="fas fa-regular fa-note-sticky"></i><span>Input Harian</span></a>
         </li>
         <li class="nav-item">
-            <a href="{{ route('indikator-mutu.create') }}" class="nav-link"><i class="fas fa-solid fa-square-plus"></i><span>Tambah Data Indikator</span></a>
+            <a href="{{ route('indikator-mutu.showRekap') }}" class="nav-link"><i class="fas fa-solid fa-layer-group"></i><span>Rekap Data Bulanan</span></a>
         </li>
         <li class="nav-item">
-            <a href="{{ route('indikator-mutu.showRekap') }}" class="nav-link"><i class="fas fa-solid fa-layer-group"></i><span>Rekap Data Bulanan</span></a>
+            <a href="{{ route('indikator-mutu.create') }}" class="nav-link"><i class="fas fa-solid fa-square-plus"></i><span>Tambah Kategori</span></a>
         </li>
     </ul>
 </aside>
