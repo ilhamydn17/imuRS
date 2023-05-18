@@ -28,7 +28,7 @@
                         <h4>Data Indikator Mutu</h4>
                     </div>
                     <div class="card-body" style="margin-top:-30px">
-                        <table class="table table-bordered">
+                        <table class="table table-bordered text-center">
                             <thead>
                                 <tr>
                                     <th scope="col">No</th>
