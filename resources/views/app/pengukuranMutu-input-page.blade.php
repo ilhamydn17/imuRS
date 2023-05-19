@@ -20,7 +20,7 @@
                                     <label class="text-capitalize">{{ $cur_indikator->nama_numerator }} (numerator)</label>
                                     <input type="number" class="form-control @error('numerator')
                                         is-invalid
-                                    @enderror" name="numerator">
+                                    @enderror" name="numerator" maxlength="100" required>
                                     @error('numerator')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -31,7 +31,7 @@
                                     <label class="text-capitalize">{{ $cur_indikator->nama_denumerator }} (denumerator)</label>
                                     <input type="number" class="form-control @error('denumerator')
                                         is-invalid
-                                    @enderror" name="denumerator">
+                                    @enderror" name="denumerator" maxlength="100" required>
                                     @error('denumerator')
                                         <div class="invalid-feedback">
                                             {{ $message }}

@@ -22,8 +22,8 @@ class StorePengukuranMutuRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'numerator' => 'required|numeric',
-            'denumerator' => 'required|numeric',
+            'numerator' => 'required|numeric|max:100',
+            'denumerator' => 'required|numeric|max:100',
             'tanggal_input' => 'required|date',
         ];
     }
