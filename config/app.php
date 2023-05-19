@@ -161,11 +161,11 @@ return [
         /*
          * Package Service Providers...
          */
-
          FortifyServiceProvider::class,
          PrettyRoutes\ServiceProvider::class,
          RealRashid\SweetAlert\SweetAlertServiceProvider::class,
-
+         Barryvdh\DomPDF\ServiceProvider::class,
+         
         /*
          * Application Service Providers...
          */
@@ -191,6 +191,7 @@ return [
         // 'Example' => App\Facades\Example::class,
         'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
         'Debugbar' => Barryvdh\Debugbar\Facades\Debugbar::class,
+        'PDF' => Barryvdh\DomPDF\Facade::class,
     ])->toArray(),
 
 ];

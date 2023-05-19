@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Unit;
-use RealRashid\SweetAlert\Facades\Alert;
+use Dompdf\Dompdf;
 use Illuminate\Http\Request;
 use App\Models\IndikatorMutu;
 use App\Models\PengukuranMutu;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\App;
+use RealRashid\SweetAlert\Facades\Alert;
 use App\Http\Requests\StoreIndikatorMutuRequest;
 
 
@@ -40,9 +43,12 @@ class IndikatorMutuController extends Controller
     public function store(StoreIndikatorMutuRequest $request)
     {
 
-        IndikatorMutu::create($request->validated());
+        if(IndikatorMutu::create($request->validated())){
+            Alert::success('Berhasil', 'Data Indikator Mutu Berhasil Ditambahkan');
+        }else{
+            Alert::error('Gagal', 'Data Indikator Mutu Gagal Ditambahkan');
+        }
 
-        Alert::success('Berhasil', 'Data Indikator Mutu Berhasil Ditambahkan');
         return redirect()->route('indikator-mutu.index');
     }
 
@@ -61,7 +67,24 @@ class IndikatorMutuController extends Controller
         $bulan = $request->input('bulan');
         $indikator_mutu_id = $request->input('indikator_mutu_id');
         $rekap = PengukuranMutu::with('indikator_mutu')->where('tanggal_input', 'like', "%{$bulan}%")->where('indikator_mutu_id','=',$indikator_mutu_id)->get();
+        $avg = $rekap->avg('prosentase');
         $indikator_mutu = IndikatorMutu::find($indikator_mutu_id);
-        return view('app.indikator-rekap-page', compact(['rekap', 'indikator_mutu','bulan']));
+        return view('app.indikator-rekap-page', compact(['rekap', 'indikator_mutu','bulan','avg']));
+    }
+
+    /**
+     * Eksport data rekap ke dalam bentuk PDF
+     */
+    public function exportPDF($indikator_mutu_id, $bulan){
+        $indikator_mutu = IndikatorMutu::find($indikator_mutu_id);
+        $nama_unit = auth()->user()->unit->where('id', $indikator_mutu->unit_id)->first()->nama_unit;
+        $data_rekap = PengukuranMutu::with('indikator_mutu')->where('tanggal_input', 'like', "%$bulan%")->where('indikator_mutu_id',$indikator_mutu_id)->get();
+        $avg = $data_rekap->avg('prosentase');
+
+        $pdf = Pdf::loadView('app.indikator-rekap-pdf-page', compact(['data_rekap', 'indikator_mutu','avg','bulan','nama_unit']))->setPaper('a4', 'potrait');
+        return $pdf->stream('rekap-indikator-mutu.pdf');
+
+        // return view('app.indikator-rekap-pdf-page', compact(['data_rekap', 'indikator_mutu','avg','bulan','nama_unit']));
+
     }
 }

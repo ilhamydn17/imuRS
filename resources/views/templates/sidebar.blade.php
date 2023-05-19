@@ -1,9 +1,9 @@
 <aside id="sidebar-wrapper">
     <div class="sidebar-brand">
-        <a href="index.html">IMURS</a>
+        <a href="#">IMURS</a>
     </div>
     <div class="sidebar-brand sidebar-brand-sm">
-        <a href="index.html">IMURS</a>
+        <img src="{{ asset('../custom-image/logo-rs.png') }}" alt="logo" width="40" class="shadow-light rounded-circle">
     </div>
     <ul class="sidebar-menu">
         {{-- konten menu yang ada di sidebar --}}
