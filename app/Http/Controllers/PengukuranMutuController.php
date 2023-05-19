@@ -30,14 +30,18 @@ class PengukuranMutuController extends Controller
         // Mengambil nilai demumerator dari request
         $denumerator = $request->input('denumerator');
 
-        // Mengembalikan ke halaman sebelumnya jika nilai numerator lebih besar dari nilai denumerator
+        // validasi numerator dan denumerator
         if ($denumerator < $numerator){
             Alert::error('Gagal', 'Numerator lebih besar dari Denumerator');
-            return redirect()->route('indikator-mutu.index');
+            return redirect()->back();
+        }else if($numerator <= 0 || $denumerator <= 0){
+            Alert::error('Gagal', 'Pembagian dengan 0 tidak dapat dilakukan');
+            return redirect()->back();
         }
 
         // count the percentage from numerator and denumerator
         $percentage = $numerator / $denumerator * 100;
+
         // set the value of percentage to request
         $request->merge(['prosentase' => $percentage]);
         // store all data to database in tabel PengukuranMutu

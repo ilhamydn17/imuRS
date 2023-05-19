@@ -31,9 +31,7 @@
 
                 <div class="form-group">
                   <div class="d-block">
-                      <label for="password" class="control-label @error('password')
-                        is-invalid
-                      @enderror">Password</label>
+                      <label for="password" class="control-label">Password</label>
                   </div>
                   <input id="password" type="password" class="form-control @error('password')
                     is-invalid
