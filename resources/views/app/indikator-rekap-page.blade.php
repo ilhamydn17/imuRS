@@ -82,7 +82,9 @@
                                         class="btn btn-info
                                             @if ($rekap->count() == 0) disabled @endif
                                         ">Download
-                                        PDF</a>
+                                        PDF
+                                    </a>
+                                    <a href="{{ route('indikator-mutu.chart',['indikator_id' => $indikator_mutu->id, 'tanggal' => $bulan]) }}" class="btn btn-primary">Lihat Grafik</a>
                                 </div>
                             </div>
                         </div>

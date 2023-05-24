@@ -13,6 +13,7 @@ use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\App;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Http\Requests\StoreIndikatorMutuRequest;
+use ArielMejiaDev\LarapexCharts\Facades\LarapexChart;
 
 class IndikatorMutuController extends Controller
 {
@@ -124,6 +125,37 @@ class IndikatorMutuController extends Controller
                 'avg_value' => $avgValue,
             ]);
         }
+    }
+
+    /**
+     * Menampilkan grafik rekap data selama setahun
+     */
+    public function showChart($indikator_id, $tanggal)
+    {
+        // pisah antara tahun dan bulan pada vaiabel $tanggal
+        $tanggal = substr($tanggal, 0, 4);
+
+        // Memasukkan data dari eloquent AveragePerbulan ke dalam array
+        $nama_indikator = IndikatorMutu::find($indikator_id)->nama_indikator;
+        $dataAvgPerbulan = [];
+        $tahun = [];
+        $query = AveragePerbulan::where('indikator_mutu_id', $indikator_id)
+            ->where('tanggal', 'like', "{$tanggal}-%")
+            ->get();
+        foreach ($query as $data) {
+            $dataAvgPerbulan[] = $data->avg_value;
+            $tahun[] = $data->tanggal;
+        }
+
+        $chart = LarapexChart::lineChart()
+            ->setTitle($nama_indikator)
+            ->setSubtitle('Tahun ' . $tanggal)
+            ->addData('Prosentase rata-rata', $dataAvgPerbulan)
+            ->setXAxis($tahun)
+            ->setStroke(3)
+            ->setGrid(true);
+
+        return view('app.indikator-grafik-page', compact('chart'));
     }
 
     /**

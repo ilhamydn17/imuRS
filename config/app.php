@@ -165,7 +165,8 @@ return [
          PrettyRoutes\ServiceProvider::class,
          RealRashid\SweetAlert\SweetAlertServiceProvider::class,
          Barryvdh\DomPDF\ServiceProvider::class,
-         
+         LarapexChartsServiceProvider::class,
+
         /*
          * Application Service Providers...
          */
