@@ -78,6 +78,7 @@
                                     </table>
                                     <a href="{{ back()->getTargetUrl() }}" class="btn btn-success">Kembali</a>
                                     <a href="{{ route('indikator-mutu.pdf', ['id' => $indikator_mutu->id, 'bulan' => $bulan]) }}"
+                                        target="_blank"
                                         class="btn btn-info
                                             @if ($rekap->count() == 0) disabled @endif
                                         ">Download

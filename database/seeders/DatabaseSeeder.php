@@ -14,6 +14,7 @@ use Database\Seeders\UnitSeeder;
 use Database\Seeders\UserSeeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Database\Seeders\AveragePerbulanSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -26,6 +27,7 @@ class DatabaseSeeder extends Seeder
             PengukuranMutuSeeder::class,
             // UserSeeder::class,
             // UnitSeeder::class,
+            // AveragePerbulanSeeder::class,
         ]);
     }
 }

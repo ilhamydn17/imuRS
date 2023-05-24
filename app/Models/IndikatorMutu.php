@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Models\Unit;
-use App\Models\AverageBulan;
+use App\Models\AveragePerbulan;
 use App\Models\PengukuranMutu;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -28,6 +28,7 @@ class IndikatorMutu extends Model
     }
 
     public function average_bulan(){
-        return $this->hasMany(AverageBulan::class);
+        return $this->hasMany(AveragePerbulan::class);
     }
+
 }

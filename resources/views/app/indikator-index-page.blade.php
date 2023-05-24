@@ -22,40 +22,27 @@
                             </div>
                         </div>
                 </div>
-                @else
+            @else
                 <div class="card">
                     <div class="card-header">
                         <h4>Data Indikator Mutu</h4>
                     </div>
                     <div class="card-body" style="margin-top:-30px">
-                        <table class="table table-bordered text-center">
+                        <table class="table text-center">
                             <thead>
                                 <tr>
                                     <th scope="col">No</th>
                                     <th scope="col" class="text-capitalize">Nama Kategori</th>
-                                    <th scope="col">Status</th>
-                                    <th>Aksi</th>
+                                    <th scope="col"></th>
                                 </tr>
                             <tbody>
                                 @foreach ($indikator_mutu as $item)
                                     <tr>
                                         <th scope="row">{{ $indikator_mutu->firstItem() + $loop->index }}</th>
                                         <td class="text-capitalize">{{ $item->nama_indikator }}</td>
-                                        <td style="border-block: 2px">
-                                            @if ($item->pengukuran_mutu->count() > 0 && $item->pengukuran_mutu->last()->tanggal_input == now()->format('Y-m-d'))
-                                                <a href="#" class="btn btn-success" style="cursor:default">Terisi</a>
-                                            @else
-                                                <a href="#" class="btn btn-warning" style="cursor:default">Kosong</a>
-                                            @endif
-                                        </td>
                                         <td>
-                                            @if ($item->pengukuran_mutu->count() > 0 && $item->pengukuran_mutu->last()->tanggal_input == now()->format('Y-m-d'))
-                                                <a href="{{ route('pengukuran-mutu.inputHarian', $item->id) }}"
-                                                    class="btn btn-primary disabled">Input</a>
-                                            @else
-                                                <a href="{{ route('pengukuran-mutu.inputHarian', $item->id) }}"
-                                                    class="btn btn-primary">Input</a>
-                                            @endif
+                                            <a href="{{ route('pengukuran-mutu.inputHarian', $item->id) }}"
+                                                class="btn btn-warning">Input</a>
                                         </td>
                                     </tr>
                                 @endforeach
