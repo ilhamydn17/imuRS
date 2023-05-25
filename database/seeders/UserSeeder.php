@@ -17,7 +17,7 @@ class UserSeeder extends Seeder
         // Make seeder for user
         User::create([
             'username'=>'instalasigawatdarurat',
-            'password'=>Hash::make('password'),
+        'password'=>Hash::make('password'),
         ]);
 
         User::create([

@@ -46,8 +46,9 @@
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-body">
-                                <div class="container mt-2">
-                                    <h4 class="text-capitalize text-center mb-4">Rekap {{ $indikator_mutu->nama_indikator }} - [{{ \Carbon\Carbon::parse($bulan)->format('F Y') }}]</h4>
+                                <div class="container mt-2 text-center">
+                                    <h4 class="text-capitalize text-center mb-4">Rekap {{ $indikator_mutu->nama_indikator }} -
+                                        [{{ \Carbon\Carbon::parse($bulan)->format('F Y') }}]</h4>
                                     <table class="table table-sm table-bordered text-center">
                                         <tr>
                                             <th>Tanggal Input</th>
@@ -57,7 +58,7 @@
                                         </tr>
                                         @forelse ($rekap as $item)
                                             <tr>
-                                                <td>{{ \Carbon\Carbon::parse($item->tanggal_input)->format('d-m-Y')  }}</td>
+                                                <td>{{ \Carbon\Carbon::parse($item->tanggal_input)->format('d-m-Y') }}</td>
                                                 <td>{{ $item->numerator }}</td>
                                                 <td>{{ $item->denumerator }}</td>
                                                 <td>{{ $item->prosentase }} %</td>
@@ -68,7 +69,22 @@
                                                 </td>
                                             </tr>
                                         @endforelse
+                                        <tr>
+                                            <th colspan="3">
+                                                Rata-rata
+                                            </th>
+                                            <th>{{ $avg }} %</th>
+                                        </tr>
                                     </table>
+                                    <a href="{{ back()->getTargetUrl() }}" class="btn btn-success">Kembali</a>
+                                    <a href="{{ route('indikator-mutu.pdf', ['id' => $indikator_mutu->id, 'bulan' => $bulan]) }}"
+                                        target="_blank"
+                                        class="btn btn-info
+                                            @if ($rekap->count() == 0) disabled @endif
+                                        ">Download
+                                        PDF
+                                    </a>
+                                    <a href="{{ route('indikator-mutu.chart',['indikator_id' => $indikator_mutu->id, 'tanggal' => $bulan]) }}" class="btn btn-primary">Lihat Grafik</a>
                                 </div>
                             </div>
                         </div>

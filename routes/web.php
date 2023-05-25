@@ -20,17 +20,20 @@ use Database\Seeders\IndikatorMutuSeeder;
 
 
 // FOR APPS------------
-Route::get('/', function () {
-   return view('app.auth.login');
-});
 
+
+Route::get('/', function () {
+    return view('app.auth.login');
+});
 Route::middleware(['auth'])->group(function () {
     // Routing indikator-mutu
     Route::resource('indikator-mutu', IndikatorMutuController::class)->except('show');
     Route::name('indikator-mutu.showRekap')->get('indikator-mutu/rekap', [IndikatorMutuController::class, 'showRekap']);
     Route::name('indikator-mutu.getRekap')->post('indikator-mutu/getRekap', [IndikatorMutuController::class, 'getRekap']);
+    Route::name('indikator-mutu.pdf')->get('indikator-mutu/pdf/{id}/{bulan}', [IndikatorMutuController::class, 'exportPDF']);
+    Route::name('indikator-mutu.chart')->get('indikator-mutu/chart/{indikator_id}/{tanggal}', [IndikatorMutuController::class, 'showChart']);
 
-    // ROuting pengukuran-mutu
+    // Routing pengukuran-mutu
     Route::resource('pengukuran-mutu', PengukuranMutuController::class)->except('show');
     Route::name('pengukuran-mutu.inputHarian')->get('pengukuran-mutu/input/{id}', [PengukuranMutuController::class, 'inputHarian']);
 });

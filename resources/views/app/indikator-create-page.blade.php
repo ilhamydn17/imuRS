@@ -8,10 +8,10 @@
 
         <div class="section-body">
             <div class="row d-flex justify-content-center">
-                <div class="col-10">
+                <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Form Input Data Kategor</h4>
+                            <h4>Form Input Kategori Baru</h4>
                         </div>
 
                         <div class="card-body">
@@ -25,12 +25,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Nama Indikator Mutu</label>
-                                    <input type="text"
-                                        class="form-control text-uppercase @error('nama_indikator')
-                                        is-invalid
-                                    @enderror"
-                                        name="nama_indikator" autocomplete="off">
-
+                                    <input type="text" class="form-control text-uppercase" name="nama_indikator"
+                                        autocomplete="off" required>
                                     @error('nama_indikator')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -39,11 +35,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Nama Numerator</label>
-                                    <input type="text"
-                                        class="form-control text-capitalize @error('nama_numerator')
-                                        is-invalid
-                                    @enderror"
-                                        name="nama_numerator" autocomplete="off">
+                                    <input type="text" class="form-control text-capitalize" name="nama_numerator"
+                                        autocomplete="off" required>
                                     @error('nama_numerator')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -52,9 +45,8 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Nama Denumerator</label>
-                                    <input type="text" class="form-control text-capitalize @error('nama_denumerator')
-                                        is-invalid
-                                    @enderror" name="nama_denumerator" autocomplete="off">
+                                    <input type="text" class="form-control text-capitalize" name="nama_denumerator"
+                                        autocomplete="off" required>
 
                                     @error('nama_denumerator')
                                         <div class="invalid-feedback">

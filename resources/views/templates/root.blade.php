@@ -62,6 +62,12 @@
         </div>
     </div>
 
+    {{-- FOR LARAPEX --}}
+    @isset($chart)
+        <script src="{{ $chart->cdn() }}"></script>
+        {!! $chart->script() !!}
+    @endisset
+
     {{-- Include Sweet Alert --}}
     @include('sweetalert::alert')
 
