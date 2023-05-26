@@ -28,11 +28,12 @@
                         <h4>Data Indikator Mutu</h4>
                     </div>
                     <div class="card-body" style="margin-top:-30px">
-                        <table class="table text-center">
+                        <table class="table">
                             <thead>
                                 <tr>
                                     <th scope="col">No</th>
                                     <th scope="col" class="text-capitalize">Nama Kategori</th>
+                                    <th scope="col">Status</th>
                                     <th scope="col"></th>
                                 </tr>
                             <tbody>
@@ -40,6 +41,13 @@
                                     <tr>
                                         <th scope="row">{{ $indikator_mutu->firstItem() + $loop->index }}</th>
                                         <td class="text-capitalize">{{ $item->nama_indikator }}</td>
+                                        <td>
+                                            @if ($item->status == 0)
+                                                <span class="badge badge-danger">Belum Input</span>
+                                            @else
+                                                <span class="badge badge-success">Sudah Input</span>
+                                            @endif
+                                        </td>
                                         <td>
                                             <a href="{{ route('pengukuran-mutu.inputHarian', $item->id) }}"
                                                 class="btn btn-warning">Input</a>

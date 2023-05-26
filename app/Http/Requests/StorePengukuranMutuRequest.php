@@ -22,8 +22,8 @@ class StorePengukuranMutuRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'numerator' => 'required|numeric|max:100',
-            'denumerator' => 'required|numeric|max:100',
+            'numerator' => 'required|numeric|max:500',
+            'denumerator' => 'required|numeric|max:500',
             'tanggal_input' => 'required|date',
         ];
     }
@@ -34,10 +34,10 @@ class StorePengukuranMutuRequest extends FormRequest
         return [
             'numerator.required' => 'Numerator tidak boleh kosong',
             'numerator.numeric' => 'Numerator harus berupa angka',
-            'numerator.max' => 'Numerator tidak boleh lebih dari 100',
+            'numerator.max' => 'Numerator tidak boleh lebih dari 500',
             'denumerator.required' => 'Denumerator tidak boleh kosong',
             'denumerator.numeric' => 'Denumerator harus berupa angka',
-            'denumerator.max' => 'Denumerator tidak boleh lebih dari 100',
+            'denumerator.max' => 'Denumerator tidak boleh lebih dari 500',
         ];
     }
 }

@@ -30,7 +30,35 @@ class IndikatorMutuController extends Controller
             $user_data->unit->id
         )->paginate(5);
 
+        //tanggal hari ini
         $today = Carbon::now()->format('Y-m-d');
+
+        //tanggal kemarin
+        $yesterday = Carbon::yesterday()->format('Y-m-d');
+        // dd($yesterday);
+
+        if (
+            // jika data indikator mutu kemarin sudah diisi maka update nilai kolom status menjadi 0
+            IndikatorMutu::with('pengukuran_mutu')->where('status',
+                1)->where('unit_id',
+                    $user_data->unit->id)->whereHas('pengukuran_mutu',
+                    function ($query) use ($yesterday) {
+                        $query->where('tanggal_input', $yesterday);
+                    })->exists()
+                    &&
+                    // jika data indikator mutu hari ini belum diisi maka update nilai kolom status menjadi 0
+                    !IndikatorMutu::with('pengukuran_mutu')->where('status',
+                        1)->where('unit_id',
+                            $user_data->unit->id)->whereHas('pengukuran_mutu',
+                            function ($query) use ($today) {
+                                $query->where('tanggal_input', $today);
+                            })->exists()
+        ) {
+            // update semua kolom status menjadi 0
+            IndikatorMutu::where('unit_id', $user_data->unit->id)->update([
+                'status' => 0,
+            ]);
+        }
 
         return view(
             'app.indikator-index-page',
@@ -86,14 +114,11 @@ class IndikatorMutuController extends Controller
             ->get();
         $avg = $rekap->avg('prosentase');
 
-        //insert average perbulan to database
-        try {
-            $this->insertAveragePerbulan($indikator_mutu_id, $bulan, $avg);
-        } catch (\Throwable $th) {
-            Alert::error('Gagal', 'Data Average Perbulan Gagal Ditambahkan');
-        }
+        // Memasukkan nilai average perbulan ke database
+        $this->insertAveragePerbulan($indikator_mutu_id, $bulan, $avg);
 
         $indikator_mutu = IndikatorMutu::find($indikator_mutu_id);
+
         return view(
             'app.indikator-rekap-page',
             compact(['rekap', 'indikator_mutu', 'bulan', 'avg'])

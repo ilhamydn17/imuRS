@@ -52,8 +52,14 @@ class PengukuranMutuController extends Controller
 
         // set the value of percentage to request
         $request->merge(['prosentase' => $percentage]);
+
         // store all data to database in tabel PengukuranMutu
         PengukuranMutu::create($request->all());
+
+        // update kolom status pada table indikator mutu menjadi 1
+        IndikatorMutu::where('id', $request->indikator_mutu_id)->update([
+            'status' => 1,
+        ]);
 
         Alert::success('Berhasil', 'Input Berhasil Ditambahkan');
         return redirect()->route('indikator-mutu.index');
