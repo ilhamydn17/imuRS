@@ -12,9 +12,7 @@ class Unit extends Model
     // HasUuids
     use HasFactory;
 
-    protected $fillable = [
-        'nama_unit',
-    ];
+   protected $guarded = ['id'];
 
     public $table = "unit";
 

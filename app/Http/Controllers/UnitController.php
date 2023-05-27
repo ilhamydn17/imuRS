@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Unit;
 use App\Http\Requests\StoreUnitRequest;
 use App\Http\Requests\UpdateUnitRequest;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class UnitController extends Controller
 {
@@ -21,7 +22,7 @@ class UnitController extends Controller
      */
     public function create()
     {
-        //
+        return view('cadangan.inputUnit');
     }
 
     /**
@@ -30,6 +31,14 @@ class UnitController extends Controller
     public function store(StoreUnitRequest $request)
     {
         //
+        if( Unit::create($request->validated())){
+            Alert::success('Berhasil', 'Unit berhasil ditambahkan');
+            return redirect()->route('unit.create');
+        }else{
+            Alert::error('Gagal', 'Unit gagal ditambahkan');
+            return redirect()->route('unit.create')->with('error', 'Unit gagal ditambahkan');
+        }
+
     }
 
     /**

@@ -16,26 +16,25 @@ class UserSeeder extends Seeder
     {
         // Make seeder for user
         User::create([
-            'username'=>'instalasigawatdarurat',
-        'password'=>Hash::make('password'),
+            'username' => 'ruangbougenville',
+            'password' => Hash::make('rb12345'),
         ]);
 
         User::create([
-            'username'=>'ruanganggrek',
-            'password'=>Hash::make('password'),
+            'username' => 'ruanganggrek',
+            'password' => Hash::make('ra12345'),
+        ]);
+
+        User::create([
+            'username' => 'instalasigawatdarurat',
+            'password' => Hash::make('igd12345'),
         ]);
 
         // User::create([
-        //     'unit_id'=>3,
-        //     'username'=>'instalasigawatdarurat',
-        //     'password'=>Hash::make('password'),
+        //     'username' => 'ruanganggrek',
+        //     'password' => Hash::make('ra12345'),
         // ]);
 
-        // User::created([
-        //     'unit_id'=>4,
-        //     'username'=>'poligigi',
-        //     'password'=>Hash::make('password'),
-        // ]);
     }
 }
 

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ChartJsController;
 use App\Http\Controllers\IndikatorMutuController;
 use App\Http\Controllers\PengukuranMutuController;
+use App\Http\Controllers\UnitController;
 use Database\Seeders\IndikatorMutuSeeder;
 
 /*
@@ -19,22 +20,27 @@ use Database\Seeders\IndikatorMutuSeeder;
 */
 
 
-// FOR APPS------------
-
-
+// FOR APPS-------------------------
 Route::get('/', function () {
     return view('app.auth.login');
 });
+
+// Route::resource('unit', UnitController::class);
+
 Route::middleware(['auth'])->group(function () {
-    // Routing indikator-mutu
+    // Routing indikator mutu
     Route::resource('indikator-mutu', IndikatorMutuController::class)->except('show');
     Route::name('indikator-mutu.showRekap')->get('indikator-mutu/rekap', [IndikatorMutuController::class, 'showRekap']);
     Route::name('indikator-mutu.getRekap')->post('indikator-mutu/getRekap', [IndikatorMutuController::class, 'getRekap']);
     Route::name('indikator-mutu.pdf')->get('indikator-mutu/pdf/{id}/{bulan}', [IndikatorMutuController::class, 'exportPDF']);
     Route::name('indikator-mutu.chart')->get('indikator-mutu/chart/{indikator_id}/{tanggal}', [IndikatorMutuController::class, 'showChart']);
 
-    // Routing pengukuran-mutu
+    // Routing pengukuran mutu
     Route::resource('pengukuran-mutu', PengukuranMutuController::class)->except('show');
     Route::name('pengukuran-mutu.inputHarian')->get('pengukuran-mutu/input/{id}', [PengukuranMutuController::class, 'inputHarian']);
 });
-//----------------------
+// -------------------------
+
+
+
+
