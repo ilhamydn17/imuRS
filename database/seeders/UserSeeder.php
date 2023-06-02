@@ -26,8 +26,8 @@ class UserSeeder extends Seeder
         ]);
 
         User::create([
-            'username' => 'instalasigawatdarurat',
-            'password' => Hash::make('igd12345'),
+            'username' => 'teknologinformasi',
+            'password' => Hash::make('it12345'),
         ]);
 
     }

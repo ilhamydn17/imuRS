@@ -145,7 +145,7 @@ return [
         // ]),
 
         Fortify::loginView('app.auth.login')
-        
+
     ],
 
 ];

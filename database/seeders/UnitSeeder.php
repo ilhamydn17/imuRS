@@ -29,7 +29,7 @@ class UnitSeeder extends Seeder
 
         Unit::create([
             'user_id' => 3,
-            'nama_unit' => 'IGD',
+            'nama_unit' => 'IT',
         ]);
 
         // Unit::create([
