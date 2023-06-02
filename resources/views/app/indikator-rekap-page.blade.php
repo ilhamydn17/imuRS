@@ -27,7 +27,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="text-capitalize">Bulan</label>
-                                        <input type="month" id="bulan" name="bulan" required>
+                                        <input class="form-control" type="month" id="bulan" name="bulan" required>
                                     </div>
                                     <div class="card-footer text-right">
                                         <button class="btn btn-primary mr-1" type="submit" id="showRekap">Tampilkan
@@ -84,6 +84,7 @@
                                         ">Download
                                         PDF
                                     </a>
+                                    <a href="{{ route('indikator-mutu.exportExcel',['id' => $indikator_mutu->id, 'bulan' => $bulan]) }}" class="btn btn-warning">Expor Excel</a>
                                     <a href="{{ route('indikator-mutu.chart',['indikator_id' => $indikator_mutu->id, 'tanggal' => $bulan]) }}" class="btn btn-primary">Lihat Grafik</a>
                                 </div>
                             </div>

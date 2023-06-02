@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('average_perbulan', function (Blueprint $table) {
             $table->id();
-            $table->string('tanggal')->nullable();
+            $table->string('bulan')->nullable();
             $table->decimal('avg_value')->nullable()->default(0);
             $table->timestamps();
         });

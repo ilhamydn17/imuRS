@@ -18,6 +18,8 @@ class IndikatorMutu extends Model
 
     protected $table = "indikator_mutu";
 
+    protected $timestamp = false;
+
     public function unit()
     {
         return $this->belongsTo(Unit::class);
@@ -30,5 +32,6 @@ class IndikatorMutu extends Model
     public function average_bulan(){
         return $this->hasMany(AveragePerbulan::class);
     }
+
 
 }

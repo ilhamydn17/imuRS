@@ -25,7 +25,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Nama Indikator Mutu</label>
-                                    <input type="text" class="form-control text-uppercase" name="nama_indikator"
+                                    <input type="text" class="form-control" name="nama_indikator"
                                         autocomplete="off" required>
                                     @error('nama_indikator')
                                         <div class="invalid-feedback">
@@ -35,7 +35,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Nama Numerator</label>
-                                    <input type="text" class="form-control text-capitalize" name="nama_numerator"
+                                    <input type="text" class="form-control" name="nama_numerator"
                                         autocomplete="off" required>
                                     @error('nama_numerator')
                                         <div class="invalid-feedback">
@@ -45,7 +45,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Nama Denumerator</label>
-                                    <input type="text" class="form-control text-capitalize" name="nama_denumerator"
+                                    <input type="text" class="form-control" name="nama_denumerator"
                                         autocomplete="off" required>
 
                                     @error('nama_denumerator')
