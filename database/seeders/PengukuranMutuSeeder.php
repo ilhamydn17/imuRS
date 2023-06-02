@@ -4,8 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\PengukuranMutu;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Ramsey\Uuid\Type\Decimal;
 
 class PengukuranMutuSeeder extends Seeder
 {
@@ -14,7 +12,7 @@ class PengukuranMutuSeeder extends Seeder
      */
     public function run(): void
     {
-    //    call pengukuranFacktory
-    PengukuranMutu::factory()->count(30)->create();
+        // Call PengukuranMutuFactory
+        PengukuranMutu::factory()->count(30)->create();
     }
 }

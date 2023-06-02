@@ -80,11 +80,6 @@ class IndikatorMutuExport implements FromCollection, WithHeadings, ShouldAutoSiz
 
     public function collection()
     {
-        $indikator_mutu = IndikatorMutu::find($this->id);
-        $nama_unit = auth()
-            ->user()
-            ->unit->where('id', $indikator_mutu->unit_id)
-            ->first()->nama_unit;
         $data_rekap = PengukuranMutu::with('indikator_mutu')
             ->where('tanggal_input', 'like', "%$this->tanggal%")
             ->where('indikator_mutu_id', $this->id)

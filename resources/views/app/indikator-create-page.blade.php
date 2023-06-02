@@ -19,9 +19,9 @@
                                 @csrf
                                 <div class="form-group">
                                     <label>Nama Unit</label>
-                                    <input type="text" value="{{ $data_unit->nama_unit }}"
+                                    <input type="text" value="{{ $unitData->nama_unit }}"
                                         class="form-control text-uppercase" readonly>
-                                    <input type="hidden" name="unit_id" value="{{ $data_unit->id }}">
+                                    <input type="hidden" name="unit_id" value="{{ $unitData->id }}">
                                 </div>
                                 <div class="form-group">
                                     <label>Nama Indikator Mutu</label>

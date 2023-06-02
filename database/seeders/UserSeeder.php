@@ -30,22 +30,5 @@ class UserSeeder extends Seeder
             'password' => Hash::make('igd12345'),
         ]);
 
-        // User::create([
-        //     'username' => 'ruanganggrek',
-        //     'password' => Hash::make('ra12345'),
-        // ]);
-
     }
 }
-
-/*
- [
-
-            ],
-            [
-
-            ],
-            [
-
-            ],
-*/

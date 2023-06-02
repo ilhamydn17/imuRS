@@ -14,14 +14,9 @@ class AveragePerbulanSeeder extends Seeder
      */
     public function run(): void
     {
-        //call class factory
-        // \App\Models\AveragePerbulan::factory()->count(10)->create();
-
-        //call class factory with relation
         AveragePerbulan::create([
             'tanggal' => Carbon::now()->format('Y-m'),
             'avg_value' => 1.5,
         ]);
-
     }
 }

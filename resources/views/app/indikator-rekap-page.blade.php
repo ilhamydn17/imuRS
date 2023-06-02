@@ -7,7 +7,7 @@
         </div>
 
         <div class="section-body">
-            @isset($data_indikator)
+            @isset($dataIndikator)
                 <div class="row d-flex justify-content-center">
                     <div class="col-lg-6">
                         <div class="card">
@@ -20,7 +20,7 @@
                                     <div class="form-group">
                                         <label class="text-capitalize">Nama Indikator</label>
                                         <select class="form-control text-uppercase" name="indikator_mutu_id">
-                                            @foreach ($data_indikator as $item)
+                                            @foreach ($dataIndikator as $item)
                                                 <option value="{{ $item->id }}">{{ $item->nama_indikator }}</option>
                                             @endforeach
                                         </select>
@@ -84,7 +84,7 @@
                                         ">Download
                                         PDF
                                     </a>
-                                    <a href="{{ route('indikator-mutu.exportExcel',['id' => $indikator_mutu->id, 'bulan' => $bulan]) }}" class="btn btn-warning">Expor Excel</a>
+                                    <a href="{{ route('indikator-mutu.exportExcel',['id' => $indikator_mutu->id, 'bulan' => $bulan]) }}" class="btn btn-warning">Export Excel</a>
                                     <a href="{{ route('indikator-mutu.chart',['indikator_id' => $indikator_mutu->id, 'tanggal' => $bulan]) }}" class="btn btn-primary">Lihat Grafik</a>
                                 </div>
                             </div>

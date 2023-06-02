@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\IndikatorMutu;
 use App\Models\PengukuranMutu;
-use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StorePengukuranMutuRequest;
 use RealRashid\SweetAlert\Facades\Alert;
 use Carbon\Carbon;
@@ -13,32 +12,42 @@ class PengukuranMutuController extends Controller
 {
 
     /**
-     * Menampilkan view untuk form input harian
+     * Displays the view for daily input form
+     *
+     * @param int $id The id of the indikator_mutu
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function inputHarian($id)
     {
-        $today = Carbon::now()->format('Y-m-d');
-        $cur_indikator = auth()->user()->unit->indikator_mutu->find($id);
 
+        // Get today's date
+        $today = Carbon::now()->format('Y-m-d');
+
+        // Find the current indikatorMutu for the authenticated user's unit
+        $currentIndikatorMutu = auth()->user()->unit->indikator_mutu->find($id);
+
+         // Check if input has already been done for today's date and the given indikator_mutu
         if(PengukuranMutu::where('tanggal_input',$today)->where('indikator_mutu_id',$id)->exists()){
             Alert::error('Gagal', 'Input Harian Sudah Dilakukan');
             return redirect()->back();
         }
 
-        return view('app.pengukuranMutu-input-page', compact('cur_indikator'));
+        // Display the daily input page with the current indikator mutu
+        return view('app.pengukuranMutu-input-page', compact('currentIndikatorMutu'));
     }
 
     /**
-     * Menyimpan data pengukuran mutu yang baru ke database
+     * Store a newly created resource in storage.
      */
     public function store(StorePengukuranMutuRequest $request)
     {
-        // Mengambil nilai numerator dari request
+        // Get the numerator value from the request
         $numerator = $request->input('numerator');
-        // Mengambil nilai demumerator dari request
+
+        // Get the denumerator value from the request
         $denumerator = $request->input('denumerator');
 
-        // validasi numerator dan denumerator
+        // Validate the numerator and denumerator
         if ($denumerator < $numerator){
             Alert::error('Gagal', 'Numerator lebih besar dari Denumerator');
             return redirect()->back();
@@ -56,11 +65,12 @@ class PengukuranMutuController extends Controller
         // store all data to database in tabel PengukuranMutu
         PengukuranMutu::create($request->all());
 
-        // update kolom status pada table indikator mutu menjadi 1
+        // Update the status column in the indikator mutu table to 1
         IndikatorMutu::where('id', $request->indikator_mutu_id)->update([
             'status' => 1,
         ]);
 
+        // Display a success message and return to the indikator mutu index page
         Alert::success('Berhasil', 'Input Berhasil Ditambahkan');
         return redirect()->route('indikator-mutu.index');
     }

@@ -42,7 +42,7 @@ class UnitSeeder extends Seeder
         //     'nama_unit' => 'ICU',
         // ]);
 
-        // Unit::create([
+        // Unit::create([s
         //     'user_id' => 6,
         //     'nama_unit' => 'P.Bedah',
         // ]);

@@ -3,14 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Exports\IndikatorMutuExport;
-use Carbon\Carbon;
-use App\Exports\UsersExport;
 use Illuminate\Http\Request;
 use App\Models\IndikatorMutu;
 use App\Models\PengukuranMutu;
 use App\Models\AveragePerbulan;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Support\Facades\App;
 use Maatwebsite\Excel\Facades\Excel;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Http\Requests\StoreIndikatorMutuRequest;
@@ -18,61 +15,70 @@ use ArielMejiaDev\LarapexCharts\Facades\LarapexChart;
 
 class IndikatorMutuController extends Controller
 {
-    /**
-     * Halaman pertama yang ditampilkan saat user berhasil login
+   /**
+     * Display the first page after a user logs in
      */
     public function index()
     {
-        // Mengambil data user yang telah login
-        $user_data = auth()->user();
+        // Get the authenticated user's data
+        $userData = auth()->user();
 
-        // Mengambil data indikator_mutu (bersifat many) dari unit(relasi dengan user) yang telah login
-        $indikator_mutu = IndikatorMutu::where(
-            'unit_id',
-            $user_data->unit->id
-        )->paginate(5);
+        // Get the ID of the unit the user belongs to
+        $unitId = $userData->unit->id;
 
-        // Mengambil tanggal hari ini
-        $today = now()->toDatestring();
+        // Get a paginated list of quality indicators for the unit
+        $indikatorMutu = IndikatorMutu::where('unit_id', $unitId)->paginate(5);
 
-        // Mengambiil tanggal hari kemarin
+        // Get today's date and yesterday's date
+        $today = now()->toDateString();
         $yesterday = now()->subDays()->toDateString();
 
-        // Apakah input kemarin telah dilakukan (status = 1) atau belum (status = 0) dengan menghitung jumlah data yang ada
-        $cekInputKemarin =  IndikatorMutu::where('status',1)
-        ->where('unit_id', $user_data->unit->id)
-        ->whereHas('pengukuran_mutu',function ($query) use ($yesterday){$query->whereDate('tanggal_input', $yesterday);})->count();
+        // Check if there were any quality measurements entered yesterday
+        $cekInputKemarin = IndikatorMutu::where('status', 1)
+                                        ->where('unit_id', $unitId)
+                                        ->whereHas('pengukuran_mutu', function ($query) use ($yesterday) {
+                                            $query->whereDate('tanggal_input', $yesterday);
+                                        })->count();
 
-        // Apakah input hari ini telah dilakukan (status = 1) atau belum (status = 0) dengan menghitung jumlah data yang ada
+        // Check if there are any quality measurements entered today
         $cekInputHariIni = IndikatorMutu::with('pengukuran_mutu')
-        ->where('status',1)
-        ->where('unit_id',$user_data->unit->id)
-        ->whereHas('pengukuran_mutu',function ($query) use ($today) {$query->whereDate('tanggal_input', $today);})->count();
+                                        ->where('status', 1)
+                                        ->where('unit_id', $unitId)
+                                        ->whereHas('pengukuran_mutu', function ($query) use ($today) {
+                                            $query->whereDate('tanggal_input', $today);
+                                        })->count();
 
-        // Melakukan pengecekan untuk mengupdate nilai kolom status pada tabel indikator_mutu
+        // If there were quality measurements entered yesterday but none today, update the status of the quality indicators for the unit
         if ($cekInputKemarin > 0 && $cekInputHariIni == 0) {
-            IndikatorMutu::where('unit_id', $user_data->unit->id)->update([
+            IndikatorMutu::where('unit_id', $unitId)->update([
                 'status' => 0,
             ]);
         }
 
-        return view('app.indikator-index-page',compact(['indikator_mutu', 'user_data', 'today']));
+        // Return the view for the quality indicators index page, along with the data needed to display it
+        return view('app.indikator-index-page', compact('indikatorMutu', 'userData', 'today'));
     }
 
+
+
     /**
-     * Menampilkan view untuk form membuat input baru
+     * Display the view for creating a new input.
      */
     public function create()
     {
-        // Mengambil data unit
-        $data_unit = auth()->user()->unit;
+        // Get the unit data.
+        $unitData = auth()->user()->unit;
 
-        // Mengembalikan view untuk form input data yang baru
-        return view('app.indikator-create-page', compact('data_unit'));
+        // Return the view for creating a new input.
+        return view('app.indikator-create-page', compact('unitData'));
     }
 
-    /**
-     * Menyimpan data indikator mutu yang baru ke database
+
+   /**
+     * Stores new quality indicator data to the database.
+     *
+     * @param StoreIndikatorMutuRequest $request The incoming request.
+     * @return \Illuminate\Http\RedirectResponse The redirect response.
      */
     public function store(StoreIndikatorMutuRequest $request)
     {
@@ -90,41 +96,48 @@ class IndikatorMutuController extends Controller
     }
 
     /**
-     * Menampilkan view untuk form penyajian data rekap harian
+     * Display the view for the daily summary data form.
      */
     public function showRekap()
     {
         // Mengembalikan view untuk form penyajian data rekap harian
-        $data_indikator = auth()->user()->unit->indikator_mutu;
-        return view('app.indikator-rekap-page', compact('data_indikator'));
+        $dataIndikator = auth()->user()->unit->indikator_mutu;
+        return view('app.indikator-rekap-page', compact('dataIndikator'));
     }
 
     /**
-     * Mengembalikan data hasil rekap
+     * Returns the summary data of the metrics.
+     *
+     * @param  Request  $request  The request object.
+     * @return \Illuminate\View\View
      */
     public function getRekap(Request $request)
     {
-        // Mengambil data bulan dari request
+        // Get the month data from the request.
         $bulan = $request->input('bulan');
 
-        // Mengambil data indikator_mutu_id dari request
-        $indikator_mutu_id = $request->input('indikator_mutu_id');
+        // Get the indikator_mutu_id data from the request.
+        $indikatorMutu_id = $request->input('indikator_mutu_id');
 
-        // Mengambil data rekap berdasarkan bulan dan indikator_mutu_id
+        // Get the rekap data based on the month and indikator_mutu_id.
         $rekap = PengukuranMutu::with('indikator_mutu')
             ->where('tanggal_input', 'like', "%{$bulan}%")
-            ->where('indikator_mutu_id', '=', $indikator_mutu_id)
+            ->where('indikator_mutu_id', '=', $indikatorMutu_id)
             ->orderBy('tanggal_input')->get();
+
+        // Calculate the average of the percentage.
         $avg = $rekap->avg('prosentase');
 
-        // Memasukkan nilai average perbulan ke database
-        $this->insertOrUpdateAveragePerbulan($indikator_mutu_id, $bulan, $avg);
+        // Insert or update the average value per month to the database.
+        $this->insertOrUpdateAveragePerbulan($indikatorMutu_id, $bulan, $avg);
 
-        // Mengambil data indikator_mutu berdasarkan indikator_mutu_id
-        $indikator_mutu = IndikatorMutu::find($indikator_mutu_id);
+        // Get the indikator_mutu data based on the indikator_mutu_id.
+        $indikator_mutu = IndikatorMutu::find($indikatorMutu_id);
 
+        // Return the view with the rekap, indikator_mutu, month, and average data.
         return view('app.indikator-rekap-page', compact(['rekap', 'indikator_mutu', 'bulan', 'avg']));
     }
+
 
     /**
      * Insert or update data for rata-rata prosentase perbulan.
@@ -136,13 +149,13 @@ class IndikatorMutuController extends Controller
      */
     private function insertOrUpdateAveragePerbulan($indikator_mutu_id, $bulan, $avg_value) {
         // Check if data for the given indikator_mutu_id and month/year exists.
-        $existing_data = AveragePerbulan::where('indikator_mutu_id', $indikator_mutu_id)
+        $existingData = AveragePerbulan::where('indikator_mutu_id', $indikator_mutu_id)
                                         ->where('bulan', $bulan)
                                         ->first();
-        if ($existing_data) {
+        if ($existingData) {
             // If data exists, update the existing record with new average value.
-            $existing_data->avg_value = $avg_value;
-            $existing_data->save();
+            $existingData->avg_value = $avg_value;
+            $existingData->save();
         } else {
             // If data does not exist, create a new record with the given values.
             AveragePerbulan::create([
@@ -154,15 +167,19 @@ class IndikatorMutuController extends Controller
     }
 
     /**
-     * Menampilkan grafik rekap data selama setahun
+     * Displays a chart summarizing data for a year.
+     *
+     * @param int $indikator_id The ID of the indicator to display.
+     * @param string $tanggal The date to display, in 'YYYY-MM' format.
+     * @return \Illuminate\Contracts\View\View The view containing the chart.
      */
     public function showChart($indikator_id, $tanggal)
     {
-        // pisah antara tahun dan bulan pada vaiabel $tanggal
+        // Extract the year and month from the $tanggal variable.
         $tahun = substr($tanggal, 0, 4);
 
-        // Memasukkan data dari eloquent AveragePerbulan ke dalam array
-        $nama_indikator = IndikatorMutu::find($indikator_id)->nama_indikator;
+        // Retrieve data from the AveragePerbulan Eloquent model and store it in an array.
+        $namaIndikator = IndikatorMutu::find($indikator_id)->nama_indikator;
         $dataAvgPerbulan = [];
         $tahunList= [];
         $query = AveragePerbulan::where('indikator_mutu_id', $indikator_id)
@@ -173,40 +190,65 @@ class IndikatorMutuController extends Controller
             $tahunList[] = $data->bulan;
         }
 
+        // Create a line chart using the LarapexChart library.
         $chart = LarapexChart::lineChart()
-            ->setTitle($nama_indikator)
+            ->setTitle($namaIndikator)
             ->setSubtitle('Tahun ' . $tahun)
             ->addData('Prosentase', $dataAvgPerbulan)
             ->setXAxis($tahunList)
             ->setStroke(3)
             ->setGrid(true);
 
+        // Return the view containing the chart.
         return view('app.indikator-grafik-page', compact('chart'));
     }
 
+
     /**
-     * Eksport data rekap ke dalam bentuk PDF
+     * Export the summary data to PDF format.
+     *
+     * @param int $indikator_mutu_id ID of the quality indicator
+     * @param string $bulan Month in string format (e.g. "January")
+     *
+     * @return \Illuminate\Http\Response
      */
     public function exportPDF($indikator_mutu_id, $bulan)
     {
-        $indikator_mutu = IndikatorMutu::find($indikator_mutu_id);
-        $nama_unit = auth()
+        // Get the quality indicator based on its ID
+        $indikatorMutu_id = IndikatorMutu::find($indikator_mutu_id);
+
+        // Get the name of the unit associated with the quality indicator
+        $namaUnit = auth()
             ->user()
-            ->unit->where('id', $indikator_mutu->unit_id)
+            ->unit->where('id', $indikatorMutu_id->unit_id)
             ->first()->nama_unit;
-        $data_rekap = PengukuranMutu::with('indikator_mutu')
+
+        // Get the quality measurements with the specified month and quality indicator ID
+        $dataRekap = PengukuranMutu::with('indikator_mutu')
             ->where('tanggal_input', 'like', "%$bulan%")
             ->where('indikator_mutu_id', $indikator_mutu_id)
             ->get();
-        $avg = $data_rekap->avg('prosentase');
 
+        // Calculate the average quality measurement percentage
+        $avg = $dataRekap->avg('prosentase');
+
+        // Generate a PDF using the data and view
         $pdf = Pdf::loadView('app.indikator-rekap-pdf-page', compact(['data_rekap','indikator_mutu','avg','bulan','nama_unit',]))->setPaper('a4', 'potrait');
 
+        // Stream the PDF to the response
         return $pdf->stream('rekap-indikator-mutu.pdf');
     }
 
+    /**
+     * Export data to excel
+     *
+     * @param int $id The ID of the data to export
+     * @param string $tanggal The date to use in the file name
+     *
+     */
     public function exportExcel($id, $tanggal)
     {
+        // Download an Excel file with the exported data
         return Excel::download(new IndikatorMutuExport($id, $tanggal), 'Rekap_'.$tanggal.'.xlsx');
     }
 

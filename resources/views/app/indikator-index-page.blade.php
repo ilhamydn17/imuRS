@@ -3,13 +3,13 @@
 @section('content')
     <section class="section">
         <div class="section-header">
-            <h1>Input Harian - {{ $user_data->unit->nama_unit }}</h1>
+            <h1>Input Harian - {{ $userData->unit->nama_unit }}</h1>
         </div>
         <div class="section-body">
             <h2 class="section-title">Input Harian Indikator Mutu Unit - [{{ date('d F y') }}]</h2>
             <div class="row">
                 <div class="col-md-12">
-                    @if ($indikator_mutu->count() == 0)
+                    @if ($indikatorMutu->count() == 0)
                         <div class="card">
                             <div class="card-body">
                                 <div class="alert alert-warning alert-has-icon">
@@ -37,9 +37,9 @@
                                     <th scope="col"></th>
                                 </tr>
                             <tbody>
-                                @foreach ($indikator_mutu as $item)
+                                @foreach ($indikatorMutu as $item)
                                     <tr>
-                                        <th scope="row">{{ $indikator_mutu->firstItem() + $loop->index }}</th>
+                                        <th scope="row">{{ $indikatorMutu->firstItem() + $loop->index }}</th>
                                         <td class="text-capitalize">{{ $item->nama_indikator }}</td>
                                         <td>
                                             @if ($item->status == 0)
@@ -58,7 +58,7 @@
                         </table>
                     </div>
                 </div>
-                {{ $indikator_mutu->links() }}
+                {{ $indikatorMutu->links() }}
                 @endif
 
             </div>
