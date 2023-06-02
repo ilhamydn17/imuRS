@@ -34,6 +34,7 @@ Route::middleware(['auth'])->group(function () {
     Route::name('indikator-mutu.getRekap')->post('indikator-mutu/getRekap', [IndikatorMutuController::class, 'getRekap']);
     Route::name('indikator-mutu.pdf')->get('indikator-mutu/pdf/{id}/{bulan}', [IndikatorMutuController::class, 'exportPDF']);
     Route::name('indikator-mutu.chart')->get('indikator-mutu/chart/{indikator_id}/{tanggal}', [IndikatorMutuController::class, 'showChart']);
+    Route::name('indikator-mutu.exportExcel')->get('indikator-mutu/export-excel/{id}/{bulan}', [IndikatorMutuController::class, 'exportExcel']);
 
     // Routing pengukuran mutu
     Route::resource('pengukuran-mutu', PengukuranMutuController::class)->except('show');

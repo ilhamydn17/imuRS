@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 use App\Providers\FortifyServiceProvider;
+use Maatwebsite\Excel\ExcelServiceProvider;
 use ArielMejiaDev\LarapexCharts\LarapexChartsServiceProvider;
 
 return [
@@ -166,6 +167,7 @@ return [
          RealRashid\SweetAlert\SweetAlertServiceProvider::class,
          Barryvdh\DomPDF\ServiceProvider::class,
          LarapexChartsServiceProvider::class,
+         ExcelServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -193,6 +195,7 @@ return [
         'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
         'Debugbar' => Barryvdh\Debugbar\Facades\Debugbar::class,
         'PDF' => Barryvdh\DomPDF\Facade::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ])->toArray(),
 
 ];
