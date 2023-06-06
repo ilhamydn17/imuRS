@@ -21,8 +21,9 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $guarded = [
-       'id'
+    protected $fillable = [
+       'username',
+       'password'
     ];
 
     public function unit()

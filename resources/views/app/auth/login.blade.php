@@ -21,7 +21,7 @@
                   <label for="username">Username</label>
                   <input id="username" type="text" class="form-control @error('username')
                     is-invalid
-                  @enderror " name="username" tabindex="1" autocomplete="off" autofocus>
+                  @enderror " name="username" tabindex="1" autocomplete="off">
                   @error('username')
                   <div class="invalid-feedback">
                       {{ $message }}
