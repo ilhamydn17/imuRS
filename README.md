@@ -9,7 +9,7 @@ git clone
 Update composer dengan memasukkkan perintah di bawah ini pada command line folder project
 
 ```
-composer update
+composer update https://github.com/ilhamydn17/imuRS.git
 ```
 
 ### Copy file .env.example
