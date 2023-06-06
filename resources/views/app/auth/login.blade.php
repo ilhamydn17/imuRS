@@ -19,7 +19,7 @@
                 @csrf
                 <div class="form-group">
                   <label for="username">Username</label>
-                  <input id="username" type="username" class="form-control @error('username')
+                  <input id="username" type="text" class="form-control @error('username')
                     is-invalid
                   @enderror " name="username" tabindex="1" autocomplete="off" autofocus>
                   @error('username')

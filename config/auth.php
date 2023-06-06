@@ -60,7 +60,13 @@ return [
     */
 
     'providers' => [
+
         'users' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\User::class,
+        ],
+
+        'fortify' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
