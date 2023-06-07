@@ -2,14 +2,18 @@
 ### Clone Project ke Local
 
 ```
-git clone 
+git clone https://github.com/ilhamydn17/imuRS.git
 ```
 
 ### Update Composer
 Update composer dengan memasukkkan perintah di bawah ini pada command line folder project
 
 ```
-composer update https://github.com/ilhamydn17/imuRS.git
+composer update 
+```
+atau
+```
+composer install
 ```
 
 ### Copy file .env.example
