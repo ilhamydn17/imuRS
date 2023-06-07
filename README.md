@@ -26,9 +26,9 @@ cp .env.example .env
 php artisan key:generate
 ```
 
-### Menjalankan Migrasi
+### Menjalankan Migrasi dan Seeder
 ```
-php artisan migrate
+php artisan migrate --seed
 ```
 ### Jalankan aplikasi di host local
 ```
