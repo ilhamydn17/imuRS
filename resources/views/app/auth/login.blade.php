@@ -51,6 +51,9 @@
               </form>
             </div>
           </div>
+          <div class="mt-5 text-muted text-center">
+            <a href="{{ route('register') }}">Buat Akun Baru</a>
+          </div>
           <div class="simple-footer">
             Copyright &copy; Stisla 2018
           </div>

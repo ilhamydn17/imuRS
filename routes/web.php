@@ -39,6 +39,9 @@ Route::middleware(['auth'])->group(function () {
     // Routing pengukuran mutu
     Route::resource('pengukuran-mutu', PengukuranMutuController::class)->except('show');
     Route::name('pengukuran-mutu.inputHarian')->get('pengukuran-mutu/input/{id}', [PengukuranMutuController::class, 'inputHarian']);
+
+    // Routing unit
+    Route::resource('unit', UnitController::class)->except('show');
 });
 // -------------------------
 

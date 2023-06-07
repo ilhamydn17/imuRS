@@ -21,14 +21,15 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-       'username',
-       'password'
-    ];
+
+     protected $table = 'users';
+
+     protected $with = ['unit'];
+    protected $guarded = ['id'];
 
     public function unit()
     {
-        return $this->hasOne(Unit::class);
+        return $this->belongsTo(Unit::class);
     }
     /**
      * The attributes that should be hidden for serialization.
