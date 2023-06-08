@@ -21,9 +21,9 @@ class UnitSeeder extends Seeder
             'nama_unit' => 'IT RSAU',
         ]);
 
-        Unit::create([
-            'nama_unit' => 'Test User',
-        ]);
+        // Unit::create([
+        //     'nama_unit' => 'Test User',
+        // ]);
 
 
         // Unit::create([

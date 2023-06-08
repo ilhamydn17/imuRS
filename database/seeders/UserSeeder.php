@@ -20,10 +20,10 @@ class UserSeeder extends Seeder
             'unit_id' => 1,
         ]);
 
-        User::create([
-            'username' => 'user',
-            'password' => Hash::make('user12345'),
-            'unit_id' => 2,
-        ]);
+        // User::create([
+        //     'username' => 'user',
+        //     'password' => Hash::make('user12345'),
+        //     'unit_id' => 2,
+        // ]);
     }
 }

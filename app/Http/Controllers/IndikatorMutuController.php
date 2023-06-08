@@ -82,12 +82,12 @@ class IndikatorMutuController extends Controller
      */
     public function store(StoreIndikatorMutuRequest $request)
     {
-        // Jika data gagal disimpan, maka akan muncul alert error
+        // If failed while save data, return error alertE
         if (!IndikatorMutu::create($request->validated())) {
             Alert::error('Gagal', 'Data Indikator Mutu Gagal Ditambahkan');
         }
 
-        // Jika data berhasil disimpan, maka akan muncul alert success
+        // return alert success
         Alert::success(
             'Berhasil',
             'Data Indikator Mutu Berhasil Ditambahkan'
