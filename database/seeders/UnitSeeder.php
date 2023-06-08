@@ -18,24 +18,13 @@ class UnitSeeder extends Seeder
     {
 
         Unit::create([
-            'user_id' => 1,
             'nama_unit' => 'IT RSAU',
         ]);
 
         // Unit::create([
-        //     'user_id' => 4,
-        //     'nama_unit' => 'OK',
+        //     'nama_unit' => 'Test User',
         // ]);
 
-        // Unit::create([
-        //     'user_id' => 5,
-        //     'nama_unit' => 'ICU',
-        // ]);
-
-        // Unit::create([s
-        //     'user_id' => 6,
-        //     'nama_unit' => 'P.Bedah',
-        // ]);
 
         // Unit::create([
         //     'user_id' => 7,

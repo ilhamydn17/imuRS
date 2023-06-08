@@ -9,7 +9,7 @@
             <h2 class="section-title">Input Harian Indikator Mutu Unit - [{{ date('d F y') }}]</h2>
             <div class="row">
                 <div class="col-md-12">
-                    @if ($indikatorMutu->count() == 0)
+                    {{-- @if ($indikatorMutu->count() == 0)
                         <div class="card">
                             <div class="card-body">
                                 <div class="alert alert-warning alert-has-icon">
@@ -21,48 +21,49 @@
                                 </div>
                             </div>
                         </div>
-                </div>
-            @else
-                <div class="card">
-                    <div class="card-header">
-                        <h4>Data Indikator Mutu</h4>
-                    </div>
-                    <div class="card-body" style="margin-top:-30px">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">No</th>
-                                    <th scope="col" class="text-capitalize">Nama Kategori</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col"></th>
-                                </tr>
-                            <tbody>
-                                @foreach ($indikatorMutu as $item)
+                    @else --}}
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Data Indikator Mutu</h4>
+                        </div>
+                        <div class="card-body" style="margin-top:-30px">
+                            <table class="table">
+                                <thead>
                                     <tr>
-                                        <th scope="row">{{ $indikatorMutu->firstItem() + $loop->index }}</th>
-                                        <td class="text-capitalize">{{ $item->nama_indikator }}</td>
-                                        <td>
-                                            @if ($item->status == 0)
-                                                <span class="badge badge-danger">Belum Input</span>
-                                            @else
-                                                <span class="badge badge-success">Sudah Input</span>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            <a href="{{ route('pengukuran-mutu.inputHarian', $item->id) }}"
-                                                class="btn btn-warning">Input</a>
-                                        </td>
+                                        <th scope="col">No</th>
+                                        <th scope="col" class="text-capitalize">Nama Kategori</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col"></th>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                <tbody>
+                                    @forelse($indikatorMutu as $item)
+                                        <tr>
+                                            <th scope="row">{{ $indikatorMutu->firstItem() + $loop->index }}</th>
+                                            <td class="text-capitalize">{{ $item->nama_indikator }}</td>
+                                            <td>
+                                                @if ($item->status == 0)
+                                                    <span class="badge badge-danger">Belum Input</span>
+                                                @else
+                                                    <span class="badge badge-success">Sudah Input</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <a href="{{ route('pengukuran-mutu.inputHarian', $item->id) }}"
+                                                    class="btn btn-warning">Input</a>
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <div class="alert alert-warning">
+                                           Data indikator mutu belum ada.
+                                        </div>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
+                    {{ $indikatorMutu->links() }}
                 </div>
-                {{ $indikatorMutu->links() }}
-                @endif
-
             </div>
-        </div>
         </div>
     </section>
 @endsection

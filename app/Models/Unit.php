@@ -12,13 +12,17 @@ class Unit extends Model
     // HasUuids
     use HasFactory;
 
-   protected $guarded = ['id'];
+   protected $fillable=[
+        'user_id',
+        'code_identity',
+        'nama_unit',
+    ];
 
     public $table = "unit";
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->hasOne(User::class);
     }
 
     public function indikator_mutu()

@@ -18,5 +18,11 @@
         <li class="nav-item">
             <a href="{{ route('indikator-mutu.create') }}" class="nav-link"><i class="fas fa-solid fa-square-plus"></i><span>Tambah Kategori</span></a>
         </li>
+        @can('isAdmin')
+        <li class="menu-header">Administrator</li>
+        <li class="nav-item">
+            <a href="{{ route('unit.index') }}" class="nav-link"><i class="fas fa-regular fa-note-sticky"></i><span>Data Unit</span></a>
+        </li>
+        @endcan
     </ul>
 </aside>

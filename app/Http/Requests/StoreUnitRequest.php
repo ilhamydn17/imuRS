@@ -23,6 +23,14 @@ class StoreUnitRequest extends FormRequest
     {
         return [
             'nama_unit' => 'required|string|max:255',
+            'code_identity' => 'required|string|max:6|unique:unit,code_identity',
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'nama_unit.required' => 'Nama unit tidak boleh kosong',
         ];
     }
 }

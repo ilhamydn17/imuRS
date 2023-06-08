@@ -14,7 +14,9 @@ class UnitController extends Controller
      */
     public function index()
     {
-        //
+        $this->authorize('isAdmin');
+        $units = Unit::paginate(5);
+        return view('app.admin.index-unit', compact('units'));
     }
 
     /**
@@ -22,7 +24,8 @@ class UnitController extends Controller
      */
     public function create()
     {
-        return view('cadangan.inputUnit');
+        $this->authorize('isAdmin');
+        return view('app.admin.create-unit');
     }
 
     /**
@@ -30,15 +33,13 @@ class UnitController extends Controller
      */
     public function store(StoreUnitRequest $request)
     {
-        //
-        if( Unit::create($request->validated())){
-            Alert::success('Berhasil', 'Unit berhasil ditambahkan');
-            return redirect()->route('unit.create');
-        }else{
-            Alert::error('Gagal', 'Unit gagal ditambahkan');
-            return redirect()->route('unit.create')->with('error', 'Unit gagal ditambahkan');
+        $this->authorize('isAdmin');
+        if(!Unit::create($request->validated())){
+            Alert::error('Gagal', 'Data gagal disimpan');
         }
 
+        Alert::success('Berhasil', 'Data berhasil disimpan');
+        return redirect()->route('unit.index');
     }
 
     /**
