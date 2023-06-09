@@ -13,7 +13,6 @@ class Unit extends Model
     use HasFactory;
 
    protected $fillable=[
-        'user_id',
         'code_identity',
         'nama_unit',
     ];
